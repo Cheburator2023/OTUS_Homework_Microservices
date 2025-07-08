@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ .Chart.Name }}-config
+data:
+  spring.jpa.hibernate.ddl-auto: {{ .Values.config.spring.jpa.hibernate.ddl-auto | quote }}
+  spring.flyway.enabled: {{ .Values.config.spring.flyway.enabled | quote }}

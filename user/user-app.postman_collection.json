@@ -1,0 +1,88 @@
+{
+  "info": {
+    "name": "User Management API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Create User",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"name\": \"John Doe\",\n  \"email\": \"john.doe@example.com\"\n}"
+        },
+        "url": {
+          "raw": "http://arch.homework/api/v1/users",
+          "protocol": "http",
+          "host": ["arch", "homework"],
+          "path": ["api", "v1", "users"]
+        }
+      }
+    },
+    {
+      "name": "Get All Users",
+      "request": {
+        "method": "GET",
+        "url": {
+          "raw": "http://arch.homework/api/v1/users",
+          "protocol": "http",
+          "host": ["arch", "homework"],
+          "path": ["api", "v1", "users"]
+        }
+      }
+    },
+    {
+      "name": "Get User by ID",
+      "request": {
+        "method": "GET",
+        "url": {
+          "raw": "http://arch.homework/api/v1/users/1",
+          "protocol": "http",
+          "host": ["arch", "homework"],
+          "path": ["api", "v1", "users", "1"]
+        }
+      }
+    },
+    {
+      "name": "Update User",
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"name\": \"John Updated\",\n  \"email\": \"john.updated@example.com\"\n}"
+        },
+        "url": {
+          "raw": "http://arch.homework/api/v1/users/1",
+          "protocol": "http",
+          "host": ["arch", "homework"],
+          "path": ["api", "v1", "users", "1"]
+        }
+      }
+    },
+    {
+      "name": "Delete User",
+      "request": {
+        "method": "DELETE",
+        "url": {
+          "raw": "http://arch.homework/api/v1/users/1",
+          "protocol": "http",
+          "host": ["arch", "homework"],
+          "path": ["api", "v1", "users", "1"]
+        }
+      }
+    }
+  ]
+}
