@@ -1,4 +1,3 @@
-{{- if .Values.ingress.enabled -}}
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
@@ -6,7 +5,7 @@ metadata:
 spec:
   ingressClassName: nginx
   rules:
-    - host: arch.homework
+    - host: grafana.arch.homework
       http:
         paths:
           - path: /
@@ -26,4 +25,3 @@ spec:
                 name: {{ .Chart.Name }}
                 port:
                   number: {{ .Values.service.port }}
-  {{- end }}

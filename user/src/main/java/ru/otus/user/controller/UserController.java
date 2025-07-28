@@ -1,5 +1,8 @@
 package ru.otus.user.controller;
 
+import io.micrometer.core.annotation.Timed;
+import io.micrometer.core.instrument.Counter;
+import io.micrometer.core.instrument.MeterRegistry;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -9,6 +12,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -31,6 +35,49 @@ import java.util.List;
 @Tag(name = "User API", description = "Operations with users")
 public class UserController {
     private final UserService userService;
+    private final MeterRegistry meterRegistry;
+
+    private final Counter createUserCounter;
+    private final Counter getUserCounter;
+    private final Counter updateUserCounter;
+    private final Counter deleteUserCounter;
+    private final Counter getAllUsersCounter;
+    private final Counter errorCounter;
+
+    @Autowired
+    public UserController(UserService userService, MeterRegistry meterRegistry) {
+        this.userService = userService;
+        this.meterRegistry = meterRegistry;
+
+        this.createUserCounter = Counter.builder("user.api.calls")
+                .tag("method", "createUser")
+                .description("Total number of createUser calls")
+                .register(meterRegistry);
+
+        this.getUserCounter = Counter.builder("user.api.calls")
+                .tag("method", "getUser")
+                .description("Total number of getUser calls")
+                .register(meterRegistry);
+
+        this.updateUserCounter = Counter.builder("user.api.calls")
+                .tag("method", "updateUser")
+                .description("Total number of updateUser calls")
+                .register(meterRegistry);
+
+        this.deleteUserCounter = Counter.builder("user.api.calls")
+                .tag("method", "deleteUser")
+                .description("Total number of deleteUser calls")
+                .register(meterRegistry);
+
+        this.getAllUsersCounter = Counter.builder("user.api.calls")
+                .tag("method", "getAllUsers")
+                .description("Total number of getAllUsers calls")
+                .register(meterRegistry);
+
+        this.errorCounter = Counter.builder("user.api.errors")
+                .description("Total number of API errors")
+                .register(meterRegistry);
+    }
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
@@ -43,8 +90,15 @@ public class UserController {
             @ApiResponse(responseCode = "500", description = "Internal server error",
                     content = @Content)
     })
+    @Timed(value = "user.api.latency", extraTags = {"method", "createUser"})
     public UserResponse createUser(@Valid @RequestBody UserRequest userRequest) {
-        return userService.createUser(userRequest);
+        createUserCounter.increment();
+        try {
+            return userService.createUser(userRequest);
+        } catch (Exception e) {
+            errorCounter.increment();
+            throw e;
+        }
     }
 
     @GetMapping("/{id}")
@@ -57,11 +111,18 @@ public class UserController {
             @ApiResponse(responseCode = "500", description = "Internal server error",
                     content = @Content)
     })
+    @Timed(value = "user.api.latency", extraTags = {"method", "getUser"})
     public UserResponse getUser(
             @Parameter(description = "ID of the user to be retrieved", required = true, example = "1")
             @PathVariable Long id
     ) {
-        return userService.getUserById(id);
+        getUserCounter.increment();
+        try {
+            return userService.getUserById(id);
+        } catch (Exception e) {
+            errorCounter.increment();
+            throw e;
+        }
     }
 
     @PutMapping("/{id}")
@@ -76,12 +137,19 @@ public class UserController {
             @ApiResponse(responseCode = "500", description = "Internal server error",
                     content = @Content)
     })
+    @Timed(value = "user.api.latency", extraTags = {"method", "updateUser"})
     public UserResponse updateUser(
             @Parameter(description = "ID of the user to be updated", required = true, example = "1")
             @PathVariable Long id,
             @Valid @RequestBody UserRequest userRequest
     ) {
-        return userService.updateUser(id, userRequest);
+        updateUserCounter.increment();
+        try {
+            return userService.updateUser(id, userRequest);
+        } catch (Exception e) {
+            errorCounter.increment();
+            throw e;
+        }
     }
 
     @DeleteMapping("/{id}")
@@ -95,11 +163,18 @@ public class UserController {
             @ApiResponse(responseCode = "500", description = "Internal server error",
                     content = @Content)
     })
+    @Timed(value = "user.api.latency", extraTags = {"method", "deleteUser"})
     public void deleteUser(
             @Parameter(description = "ID of the user to be deleted", required = true, example = "1")
             @PathVariable Long id
     ) {
-        userService.deleteUser(id);
+        deleteUserCounter.increment();
+        try {
+            userService.deleteUser(id);
+        } catch (Exception e) {
+            errorCounter.increment();
+            throw e;
+        }
     }
 
     @GetMapping
@@ -110,7 +185,14 @@ public class UserController {
             @ApiResponse(responseCode = "500", description = "Internal server error",
                     content = @Content)
     })
+    @Timed(value = "user.api.latency", extraTags = {"method", "getAllUsers"})
     public List<UserResponse> getAllUsers() {
-        return userService.getAllUsers();
+        getAllUsersCounter.increment();
+        try {
+            return userService.getAllUsers();
+        } catch (Exception e) {
+            errorCounter.increment();
+            throw e;
+        }
     }
 }

@@ -8,7 +8,7 @@ spec:
       containers:
         - name: migrate
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
-          command: ["sh", "-c", "while ! nc -z postgres 5432; do sleep 1; done && flyway migrate"]
+          command: ["sh", "-c", "until pg_isready -h postgres-postgresql -p 5432; do sleep 1; done && flyway migrate"]
           env:
             - name: DB_URL
               valueFrom:
