@@ -2,10 +2,11 @@
 
 ### 1. Установка БД из Helm:
 helm repo add bitnami https://charts.bitnami.com/bitnami
-helm install postgres bitnami/postgresql \
+helm install postgres stable/postgresql -n user-app \
+--set postgresqlDatabase=user_db \
 --set postgresqlUsername=postgres \
 --set postgresqlPassword=postgres \
---set postgresqlDatabase=user_db
+--set persistence.enabled=false
 
 ### 2. Применение первоначальных миграций:
 kubectl apply -f user/charts/user-app/templates/migration-job.yaml

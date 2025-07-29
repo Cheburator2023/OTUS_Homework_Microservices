@@ -12,17 +12,8 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import ru.otus.user.dto.UserRequest;
 import ru.otus.user.dto.UserResponse;
 import ru.otus.user.service.UserService;
@@ -37,45 +28,19 @@ public class UserController {
     private final UserService userService;
     private final MeterRegistry meterRegistry;
 
-    private final Counter createUserCounter;
-    private final Counter getUserCounter;
-    private final Counter updateUserCounter;
-    private final Counter deleteUserCounter;
-    private final Counter getAllUsersCounter;
-    private final Counter errorCounter;
-
-    @Autowired
-    public UserController(UserService userService, MeterRegistry meterRegistry) {
-        this.userService = userService;
-        this.meterRegistry = meterRegistry;
-
-        this.createUserCounter = Counter.builder("user.api.calls")
-                .tag("method", "createUser")
-                .description("Total number of createUser calls")
+    private Counter buildApiCounter(String method,String statusCode) {
+        return Counter.builder("user_api_calls")
+                .tag("method", method)
+                .tag("status_code", statusCode)
+                .description("Total number of " + method + " calls")
                 .register(meterRegistry);
+    }
 
-        this.getUserCounter = Counter.builder("user.api.calls")
-                .tag("method", "getUser")
-                .description("Total number of getUser calls")
-                .register(meterRegistry);
-
-        this.updateUserCounter = Counter.builder("user.api.calls")
-                .tag("method", "updateUser")
-                .description("Total number of updateUser calls")
-                .register(meterRegistry);
-
-        this.deleteUserCounter = Counter.builder("user.api.calls")
-                .tag("method", "deleteUser")
-                .description("Total number of deleteUser calls")
-                .register(meterRegistry);
-
-        this.getAllUsersCounter = Counter.builder("user.api.calls")
-                .tag("method", "getAllUsers")
-                .description("Total number of getAllUsers calls")
-                .register(meterRegistry);
-
-        this.errorCounter = Counter.builder("user.api.errors")
-                .description("Total number of API errors")
+    private Counter buildErrorCounter(String method, String statusCode) {
+        return Counter.builder("user_api_errors")
+                .tag("method", method)
+                .tag("status_code", statusCode)
+                .description("Number of API errors for " + method)
                 .register(meterRegistry);
     }
 
@@ -90,13 +55,16 @@ public class UserController {
             @ApiResponse(responseCode = "500", description = "Internal server error",
                     content = @Content)
     })
-    @Timed(value = "user.api.latency", extraTags = {"method", "createUser"})
+    @Timed(value = "user_api_latency_seconds", extraTags = {"method", "createUser"})
     public UserResponse createUser(@Valid @RequestBody UserRequest userRequest) {
-        createUserCounter.increment();
+        Counter counter = buildApiCounter("createUser", "201");
+        counter.increment();
+
         try {
             return userService.createUser(userRequest);
         } catch (Exception e) {
-            errorCounter.increment();
+            String statusCode = e instanceof jakarta.validation.ValidationException ? "400" : "500";
+            buildErrorCounter("createUser", statusCode).increment();
             throw e;
         }
     }
@@ -111,16 +79,19 @@ public class UserController {
             @ApiResponse(responseCode = "500", description = "Internal server error",
                     content = @Content)
     })
-    @Timed(value = "user.api.latency", extraTags = {"method", "getUser"})
+    @Timed(value = "user_api_latency_seconds", extraTags = {"method", "getUser"})
     public UserResponse getUser(
             @Parameter(description = "ID of the user to be retrieved", required = true, example = "1")
             @PathVariable Long id
     ) {
-        getUserCounter.increment();
+        Counter counter = buildApiCounter("getUser", "200");
+        counter.increment();
+
         try {
             return userService.getUserById(id);
         } catch (Exception e) {
-            errorCounter.increment();
+            String statusCode = e instanceof jakarta.persistence.EntityNotFoundException ? "404" : "500";
+            buildErrorCounter("getUser", statusCode).increment();
             throw e;
         }
     }
@@ -137,17 +108,21 @@ public class UserController {
             @ApiResponse(responseCode = "500", description = "Internal server error",
                     content = @Content)
     })
-    @Timed(value = "user.api.latency", extraTags = {"method", "updateUser"})
+    @Timed(value = "user_api_latency_seconds", extraTags = {"method", "updateUser"})
     public UserResponse updateUser(
             @Parameter(description = "ID of the user to be updated", required = true, example = "1")
             @PathVariable Long id,
             @Valid @RequestBody UserRequest userRequest
     ) {
-        updateUserCounter.increment();
+        Counter counter = buildApiCounter("updateUser", "200");
+        counter.increment();
+
         try {
             return userService.updateUser(id, userRequest);
         } catch (Exception e) {
-            errorCounter.increment();
+            String statusCode = e instanceof jakarta.persistence.EntityNotFoundException ? "404" :
+                    e instanceof jakarta.validation.ValidationException ? "400" : "500";
+            buildErrorCounter("updateUser", statusCode).increment();
             throw e;
         }
     }
@@ -163,16 +138,19 @@ public class UserController {
             @ApiResponse(responseCode = "500", description = "Internal server error",
                     content = @Content)
     })
-    @Timed(value = "user.api.latency", extraTags = {"method", "deleteUser"})
+    @Timed(value = "user_api_latency_seconds", extraTags = {"method", "deleteUser"})
     public void deleteUser(
             @Parameter(description = "ID of the user to be deleted", required = true, example = "1")
             @PathVariable Long id
     ) {
-        deleteUserCounter.increment();
+        Counter counter = buildApiCounter("deleteUser", "204");
+        counter.increment();
+
         try {
             userService.deleteUser(id);
         } catch (Exception e) {
-            errorCounter.increment();
+            String statusCode = e instanceof jakarta.persistence.EntityNotFoundException ? "404" : "500";
+            buildErrorCounter("deleteUser", statusCode).increment();
             throw e;
         }
     }
@@ -185,13 +163,15 @@ public class UserController {
             @ApiResponse(responseCode = "500", description = "Internal server error",
                     content = @Content)
     })
-    @Timed(value = "user.api.latency", extraTags = {"method", "getAllUsers"})
+    @Timed(value = "user_api_latency_seconds", extraTags = {"method", "getAllUsers"})
     public List<UserResponse> getAllUsers() {
-        getAllUsersCounter.increment();
+        Counter counter = buildApiCounter("getAllUsers", "200");
+        counter.increment();
+
         try {
             return userService.getAllUsers();
         } catch (Exception e) {
-            errorCounter.increment();
+            buildErrorCounter("getAllUsers", "500").increment();
             throw e;
         }
     }

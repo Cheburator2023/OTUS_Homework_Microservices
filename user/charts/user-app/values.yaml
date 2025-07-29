@@ -22,6 +22,11 @@ ingress:
         - path: /
           pathType: Prefix
 database:
+  exporter:
+    enabled: true
+    image: prometheuscommunity/postgres-exporter
+    tag: v0.14.0
+    port: 9187
   url: jdbc:postgresql://postgres-postgresql.user-app.svc.cluster.local:5432/user_db
   username: postgres
   password: postgres
@@ -42,3 +47,7 @@ monitoring:
     enabled: true
   grafana:
     enabled: true
+  serviceMonitor:
+    enabled: true
+    interval: 10s
+    scrapeTimeout: 5s

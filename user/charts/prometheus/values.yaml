@@ -30,3 +30,6 @@ config:
       metrics_path: '/actuator/prometheus'
       static_configs:
         - targets: ['user-app:8000']
+serviceMonitor:
+  additionalLabels:
+    release: prometheus

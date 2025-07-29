@@ -1,0 +1,31 @@
+{{- if .Values.database.exporter.enabled }}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "user-app.fullname" . }}-postgres-exporter
+  labels:
+    {{- include "user-app.labels" . | nindent 4 }}
+    app.kubernetes.io/component: database
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: postgres-exporter
+  template:
+    metadata:
+      labels:
+        app: postgres-exporter
+    spec:
+      containers:
+        - name: postgres-exporter
+          image: "{{ .Values.database.exporter.image }}:{{ .Values.database.exporter.tag }}"
+          env:
+            - name: DATA_SOURCE_NAME
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Chart.Name }}-db-secret
+                  key: datasource
+          ports:
+            - containerPort: {{ .Values.database.exporter.port }}
+              name: http
+  {{- end }}
