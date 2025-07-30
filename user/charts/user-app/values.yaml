@@ -1,17 +1,33 @@
 replicaCount: 1
 image:
-  repository: user-app
+  repository: victor2023victorovich/user-app
   tag: latest
   pullPolicy: IfNotPresent
 service:
-  type: ClusterIP
+  type: NodePort
   port: 8000
+  nodePort: 30080
 ingress:
   enabled: true
-  host: arch.homework
-  path: /
+  className: "nginx"
+  annotations:
+    nginx.ingress.kubernetes.io/ssl-redirect: "false"
+  hosts:
+    - host: arch.homework
+      paths:
+        - path: /
+          pathType: Prefix
+    - host: localhost
+      paths:
+        - path: /
+          pathType: Prefix
 database:
-  url: jdbc:postgresql://postgres:5432/user_db
+  exporter:
+    enabled: true
+    image: prometheuscommunity/postgres-exporter
+    tag: v0.14.0
+    port: 9187
+  url: jdbc:postgresql://postgres-postgresql.user-app.svc.cluster.local:5432/user_db
   username: postgres
   password: postgres
   driver: org.postgresql.Driver
@@ -22,3 +38,16 @@ config:
         ddl-auto: validate
     flyway:
       enabled: true
+monitoring:
+  enabled: true
+  interval: 15s
+  scrapeTimeout: 10s
+  labels: {}
+  prometheus:
+    enabled: true
+  grafana:
+    enabled: true
+  serviceMonitor:
+    enabled: true
+    interval: 10s
+    scrapeTimeout: 5s

@@ -1,0 +1,44 @@
+replicaCount: 1
+image:
+  repository: grafana/grafana
+  tag: 10.2.0
+  pullPolicy: IfNotPresent
+service:
+  type: NodePort
+  port: 3000
+  nodePort: 30000
+ingress:
+  enabled: true
+  className: "nginx"
+  annotations:
+    nginx.ingress.kubernetes.io/ssl-redirect: "false"
+  hosts:
+    - host: grafana.arch.homework
+      paths:
+        - path: /
+          pathType: Prefix
+    - host: localhost
+      paths:
+        - path: /
+          pathType: Prefix
+grafana_ini: |
+  [paths]
+  data = /var/lib/grafana/data
+  logs = /var/log/grafana
+  plugins = /var/lib/grafana/plugins
+  provisioning = /etc/grafana/provisioning
+  [analytics]
+  check_for_updates = true
+  [log]
+  mode = console
+  [grafana_net]
+  url = https://grafana.net
+
+datasources: |
+  apiVersion: 1
+  datasources:
+    - name: Prometheus
+      type: prometheus
+      url: http://prometheus:9090
+      access: proxy
+      isDefault: true

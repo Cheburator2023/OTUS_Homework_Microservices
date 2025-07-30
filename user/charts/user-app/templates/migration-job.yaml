@@ -8,7 +8,7 @@ spec:
       containers:
         - name: migrate
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
-          command: ["sh", "-c", "while ! nc -z postgres 5432; do sleep 1; done && flyway migrate"]
+          command: ["sh", "-c", "while ! python -c 'import socket; socket.socket(socket.AF_INET, socket.SOCK_STREAM).connect((\"postgres-postgresql\", 5432))' 2>/dev/null; do sleep 1; done && flyway migrate"]
           env:
             - name: DB_URL
               valueFrom:

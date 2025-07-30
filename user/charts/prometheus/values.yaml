@@ -1,0 +1,50 @@
+replicaCount: 1
+image:
+  repository: prom/prometheus
+  tag: v2.47.0
+  pullPolicy: IfNotPresent
+service:
+  type: NodePort
+  port: 9090
+  nodePort: 30090
+ingress:
+  enabled: true
+  className: "nginx"
+  annotations:
+    nginx.ingress.kubernetes.io/ssl-redirect: "false"
+  hosts:
+    - host: prometheus.arch.homework
+      paths:
+        - path: /
+          pathType: Prefix
+    - host: localhost
+      paths:
+        - path: /
+          pathType: Prefix
+config:
+  global:
+    scrape_interval: 15s
+    evaluation_interval: 15s
+  scrape_configs:
+    - job_name: 'user-app'
+      metrics_path: '/actuator/prometheus'
+      static_configs:
+        - targets: ['user-app:8000']
+    - job_name: 'kubernetes-pods'
+      kubernetes_sd_configs:
+        - role: pod
+      relabel_configs:
+        - source_labels: [ __meta_kubernetes_pod_annotation_prometheus_io_scrape ]
+          action: keep
+          regex: true
+        - source_labels: [ __meta_kubernetes_pod_container_port_number ]
+          action: keep
+          regex: "8000"
+serviceMonitor:
+  additionalLabels:
+    release: prometheus
+serviceAccount:
+  create: true
+  name: prometheus
+  annotations:
+    eks.amazonaws.com/role-arn: "" # оставить пустым для minikube

@@ -13,6 +13,10 @@ spec:
     metadata:
       labels:
         app: {{ .Chart.Name }}
+      annotations:
+        prometheus.io/scrape: "true"
+        prometheus.io/port: "8000"
+        prometheus.io/path: "/actuator/prometheus"
     spec:
       containers:
         - name: {{ .Chart.Name }}
@@ -37,7 +41,4 @@ spec:
                   name: {{ .Chart.Name }}-db-secret
                   key: password
             - name: SPRING_JPA_HIBERNATE_DDL_AUTO
-              valueFrom:
-                configMapKeyRef:
-                  name: {{ .Chart.Name }}-config
-                  key: spring.jpa.hibernate.ddl-auto
+              value: "validate"

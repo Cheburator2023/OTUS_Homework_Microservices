@@ -1,0 +1,15 @@
+{{- if .Values.database.exporter.enabled }}
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "user-app.fullname" . }}-postgres-exporter
+  labels:
+    app: postgres-exporter
+spec:
+  ports:
+    - name: http
+      port: {{ .Values.database.exporter.port }}
+      targetPort: http
+  selector:
+    app: postgres-exporter
+  {{- end }}

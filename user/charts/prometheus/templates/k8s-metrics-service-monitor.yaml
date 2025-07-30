@@ -1,0 +1,28 @@
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: k8s-metrics
+  labels:
+    release: prometheus
+spec:
+  jobLabel: k8s-metrics
+  selector:
+    matchLabels:
+      k8s-app: kubelet
+  namespaceSelector:
+    matchNames:
+      - kube-system
+  endpoints:
+    - port: https-metrics
+      scheme: https
+      path: /metrics/cadvisor
+      bearerTokenFile: /var/run/secrets/kubernetes.io/serviceaccount/token
+      tlsConfig:
+        insecureSkipVerify: true
+      interval: 30s
+      scrapeTimeout: 10s
+    - port: http-metrics
+      scheme: http
+      path: /metrics
+      interval: 30s
+      scrapeTimeout: 10s

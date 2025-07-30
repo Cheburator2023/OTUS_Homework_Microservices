@@ -1,0 +1,52 @@
+{{- if .Values.monitoring.enabled }}
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: {{ include "user-app.fullname" . }}-monitor
+  labels:
+    {{- include "user-app.labels" . | nindent 4 }}
+    {{- with .Values.monitoring.labels }}
+    {{- toYaml . | nindent 4 }}
+    {{- end }}
+spec:
+  selector:
+    matchLabels:
+      {{- include "user-app.selectorLabels" . | nindent 6 }}
+  endpoints:
+    - port: http
+      path: /actuator/prometheus
+      interval: {{ .Values.monitoring.interval | default "15s" }}
+      scrapeTimeout: {{ .Values.monitoring.scrapeTimeout | default "10s" }}
+  {{- end }}
+
+  {{- if and .Values.monitoring.enabled .Values.database.exporter.enabled }}
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: {{ include "user-app.fullname" . }}-postgres-exporter-monitor
+  labels:
+    {{- include "user-app.labels" . | nindent 4 }}
+    {{- with .Values.monitoring.labels }}
+    {{- toYaml . | nindent 4 }}
+    {{- end }}
+    app.kubernetes.io/component: database
+spec:
+  selector:
+    matchLabels:
+      app: postgres-exporter
+  endpoints:
+    - port: http
+      path: /metrics
+      honorLabels: true
+      interval: {{ .Values.monitoring.interval | default "15s" }}
+      scrapeTimeout: {{ .Values.monitoring.scrapeTimeout | default "10s" }}
+      params:
+        collect[]:
+          - standard
+          - database
+          - bgwriter
+          - archiver
+          - activity
+          - tables
+          - wal
+  {{- end }}
