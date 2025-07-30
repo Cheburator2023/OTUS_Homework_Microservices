@@ -30,10 +30,21 @@ config:
       metrics_path: '/actuator/prometheus'
       static_configs:
         - targets: ['user-app:8000']
+    - job_name: 'kubernetes-pods'
+      kubernetes_sd_configs:
+        - role: pod
+      relabel_configs:
+        - source_labels: [ __meta_kubernetes_pod_annotation_prometheus_io_scrape ]
+          action: keep
+          regex: true
+        - source_labels: [ __meta_kubernetes_pod_container_port_number ]
+          action: keep
+          regex: "8000"
 serviceMonitor:
   additionalLabels:
     release: prometheus
 serviceAccount:
   create: true
-  name: ""
-  annotations: {}
+  name: prometheus
+  annotations:
+    eks.amazonaws.com/role-arn: "" # оставить пустым для minikube

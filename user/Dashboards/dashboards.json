@@ -732,7 +732,7 @@
             "uid": "$datasource"
           },
           "editorMode": "code",
-          "expr": "sum(container_memory_working_set_bytes{pod=~'user-app.*', container!='POD', container!=''}) by (pod)",
+          "expr": "sum(container_memory_working_set_bytes{pod=~'user-app.*'}) by (pod)",
           "format": "time_series",
           "legendFormat": "{{pod}}",
           "range": true,
@@ -826,7 +826,7 @@
             "uid": "$datasource"
           },
           "editorMode": "code",
-          "expr": "sum(rate(container_cpu_usage_seconds_total{pod=~'user-app.*', container!='POD', container!=''}[1m])) by (pod)",
+          "expr": "sum(rate(container_cpu_usage_seconds_total{pod=~'user-app.*'}[1m])) by (pod)",
           "format": "time_series",
           "legendFormat": "{{pod}}",
           "range": true,
@@ -945,7 +945,7 @@
         "type": "prometheus",
         "uid": "$datasource"
       },
-      "description": "Загрузка CPU при обращении к бд",
+      "description": "Загрузка ресурсов при обращении к БД",
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -995,7 +995,24 @@
           },
           "unit": "percentunit"
         },
-        "overrides": []
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Memory usage"
+            },
+            "properties": [
+              {
+                "id": "unit",
+                "value": "bytes"
+              },
+              {
+                "id": "min",
+                "value": 0
+              }
+            ]
+          }
+        ]
       },
       "gridPos": {
         "h": 8,
@@ -1035,14 +1052,14 @@
             "uid": "$datasource"
           },
           "editorMode": "code",
-          "expr": "process_resident_memory_bytes{job=\"postgres-exporter\"} / pg_settings_shared_buffers",
+          "expr": "process_resident_memory_bytes{job=\"postgres-exporter\"}",
           "format": "time_series",
           "legendFormat": "Memory usage",
           "range": true,
           "refId": "B"
         }
       ],
-      "title": "CPU load when accessing the database",
+      "title": "Database Resource Usage",
       "type": "timeseries"
     },
     {
@@ -1268,7 +1285,7 @@
           "description": "High memory usage in pod {{ $labels.pod }}: {{ $value }} bytes",
           "summary": "K8s Pod Memory Alert"
         },
-        "expr": "container_memory_working_set_bytes{pod=~'user-app.*', container!='POD', container!=''} > 1000000000",
+        "expr": "container_memory_working_set_bytes{pod=~'user-app.*'} > 1000000000",
         "for": "5m",
         "labels": {
           "severity": "warning"
@@ -1280,7 +1297,7 @@
           "description": "High CPU usage in pod {{ $labels.pod }}: {{ $value }} cores",
           "summary": "K8s Pod CPU Alert"
         },
-        "expr": "rate(container_cpu_usage_seconds_total{pod=~'user-app.*', container!='POD', container!=''}[1m]) > 0.8",
+        "expr": "rate(container_cpu_usage_seconds_total{pod=~'user-app.*'}[1m]) > 0.8",
         "for": "5m",
         "labels": {
           "severity": "warning"
