@@ -1,0 +1,5 @@
+{
+  "teardownTimeout": "10s",
+  "noConnectionReuse": false,
+  "userAgent": "k6-load-test/1.0"
+}
