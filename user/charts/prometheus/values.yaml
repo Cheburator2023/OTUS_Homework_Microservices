@@ -33,3 +33,7 @@ config:
 serviceMonitor:
   additionalLabels:
     release: prometheus
+serviceAccount:
+  create: true
+  name: ""
+  annotations: {}

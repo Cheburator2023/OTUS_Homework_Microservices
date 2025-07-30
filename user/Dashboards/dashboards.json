@@ -945,7 +945,7 @@
         "type": "prometheus",
         "uid": "$datasource"
       },
-      "description": "Загрузка CPU и памяти PostgreSQL",
+      "description": "Загрузка CPU при обращении к бд",
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -1042,7 +1042,7 @@
           "refId": "B"
         }
       ],
-      "title": "Загрузка PostgreSQL",
+      "title": "CPU load when accessing the database",
       "type": "timeseries"
     },
     {
