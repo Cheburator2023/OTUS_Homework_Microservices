@@ -4,30 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="78427b85-37f9-4861-9abb-54c218350a8e" name="Changes" comment="Добавил Helm-charts">
-      <change afterPath="$PROJECT_DIR$/.idea/modules/user.main.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/user/charts/grafana/Chart.yaml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/user/charts/grafana/templates/configmap.yaml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/user/charts/grafana/templates/deployment.yaml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/user/charts/grafana/templates/ingress.yaml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/user/charts/grafana/templates/service.yaml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/user/charts/grafana/values.yaml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/user/charts/prometheus/Chart.yaml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/user/charts/prometheus/templates/configmap.yaml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/user/charts/prometheus/templates/deployment.yaml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/user/charts/prometheus/templates/ingress.yaml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/user/charts/prometheus/templates/service-account.yaml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/user/charts/prometheus/templates/service.yaml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/user/charts/prometheus/values.yaml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/user/charts/user-app/templates/service-monitor.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/gradle.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/gradle.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
+    <list default="true" id="78427b85-37f9-4861-9abb-54c218350a8e" name="Changes" comment="feat: Добавил нагрузочные тесты и документацию по запуску">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/user/Dockerfile" beforeDir="false" afterPath="$PROJECT_DIR$/user/Dockerfile" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/user/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/user/build.gradle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/user/charts/user-app/values.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/user/charts/user-app/values.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/user/src/main/java/ru/otus/user/controller/UserController.java" beforeDir="false" afterPath="$PROJECT_DIR$/user/src/main/java/ru/otus/user/controller/UserController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/user/src/main/resources/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/user/src/main/resources/application.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/user/tests/load/k6/scenarios/api/test.js" beforeDir="false" afterPath="$PROJECT_DIR$/user/tests/load/k6/scenarios/api/test.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -75,8 +54,8 @@
       <list>
         <option value="Record" />
         <option value="Interface" />
-        <option value="Class" />
         <option value="Dockerfile" />
+        <option value="Class" />
       </list>
     </option>
   </component>
@@ -104,8 +83,18 @@
   <component name="KubernetesApiProvider">{
   &quot;isMigrated&quot;: true
 }</component>
+  <component name="KubernetesSettings">
+    <option name="helmParameters">
+      <HelmParameters>
+        <option name="chartPath" value="$PROJECT_DIR$/user/charts/user-app" />
+        <option name="valuesFiles">
+          <option value="values.yaml" />
+        </option>
+      </HelmParameters>
+    </option>
+  </component>
   <component name="ProblemsViewState">
-    <option name="selectedTabId" value="DEPENDENCY_CHECKER_PROBLEMS_TAB" />
+    <option name="selectedTabId" value="CurrentFile" />
   </component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 6
@@ -116,31 +105,31 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Docker.user/Dockerfile.executor": "Run",
-    "Gradle.Build user.executor": "Run",
-    "Gradle.user [clean].executor": "Run",
-    "RequestMappingsPanelOrder0": "0",
-    "RequestMappingsPanelOrder1": "1",
-    "RequestMappingsPanelWidth0": "75",
-    "RequestMappingsPanelWidth1": "75",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "Spring Boot.UserApplication.executor": "Run",
-    "git-widget-placeholder": "feature/add__metrics",
-    "ignore.virus.scanning.warn.message": "true",
-    "jdk.selected.JAVA_MODULE": "openjdk-21",
-    "kotlin-language-version-configured": "true",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "settings.editor.selected.configurable": "project.propVCSSupport.DirectoryMappings",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Docker.user/Dockerfile.executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.Build user.executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.user [clean].executor&quot;: &quot;Run&quot;,
+    &quot;RequestMappingsPanelOrder0&quot;: &quot;0&quot;,
+    &quot;RequestMappingsPanelOrder1&quot;: &quot;1&quot;,
+    &quot;RequestMappingsPanelWidth0&quot;: &quot;75&quot;,
+    &quot;RequestMappingsPanelWidth1&quot;: &quot;75&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;Spring Boot.UserApplication.executor&quot;: &quot;Run&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;feature/add__metrics&quot;,
+    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
+    &quot;jdk.selected.JAVA_MODULE&quot;: &quot;openjdk-21&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;project.propVCSSupport.DirectoryMappings&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RunManager" selected="Docker.user/Dockerfile">
     <configuration name="user [clean]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
@@ -172,7 +161,9 @@
       </method>
     </configuration>
     <configuration default="true" type="docker-deploy" factoryName="dockerfile" temporary="true">
-      <deployment type="dockerfile" />
+      <deployment type="dockerfile">
+        <settings />
+      </deployment>
       <method v="2" />
     </configuration>
     <configuration name="user/Dockerfile" type="docker-deploy" factoryName="dockerfile" temporary="true" server-name="Docker">
@@ -210,7 +201,9 @@
       <workItem from="1750333209927" duration="2807000" />
       <workItem from="1751274172922" duration="41580000" />
       <workItem from="1752137238540" duration="3533000" />
-      <workItem from="1753202374232" duration="19887000" />
+      <workItem from="1753202374232" duration="121612000" />
+      <workItem from="1754465540629" duration="2067000" />
+      <workItem from="1758905525722" duration="2183000" />
     </task>
     <task id="LOCAL-00001" summary="Создал RESTful CRUD-приложение">
       <option name="closed" value="true" />
@@ -228,7 +221,47 @@
       <option name="project" value="LOCAL" />
       <updated>1751980449755</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="feat: поправил образ, добавил чарты для Графаны и Прометея">
+      <option name="closed" value="true" />
+      <created>1753694391931</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1753694391931</updated>
+    </task>
+    <task id="LOCAL-00004" summary="feat: Настроил подключение к метрикам приложения и бд">
+      <option name="closed" value="true" />
+      <created>1753814537863</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1753814537863</updated>
+    </task>
+    <task id="LOCAL-00005" summary="feat: Настроил подключение к метрикам Ingress">
+      <option name="closed" value="true" />
+      <created>1753861576835</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1753861576836</updated>
+    </task>
+    <task id="LOCAL-00006" summary="feat: Настроил подключение к метрикам пода, для получения загрузки CPU и памяти">
+      <option name="closed" value="true" />
+      <created>1753872145208</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1753872145208</updated>
+    </task>
+    <task id="LOCAL-00007" summary="feat: Добавил нагрузочные тесты и документацию по запуску">
+      <option name="closed" value="true" />
+      <created>1753896087153</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1753896087153</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -260,6 +293,11 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Создал RESTful CRUD-приложение" />
     <MESSAGE value="Добавил Helm-charts" />
-    <option name="LAST_COMMIT_MESSAGE" value="Добавил Helm-charts" />
+    <MESSAGE value="feat: поправил образ, добавил чарты для Графаны и Прометея" />
+    <MESSAGE value="feat: Настроил подключение к метрикам приложения и бд" />
+    <MESSAGE value="feat: Настроил подключение к метрикам Ingress" />
+    <MESSAGE value="feat: Настроил подключение к метрикам пода, для получения загрузки CPU и памяти" />
+    <MESSAGE value="feat: Добавил нагрузочные тесты и документацию по запуску" />
+    <option name="LAST_COMMIT_MESSAGE" value="feat: Добавил нагрузочные тесты и документацию по запуску" />
   </component>
 </project>
