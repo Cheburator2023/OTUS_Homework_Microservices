@@ -5,28 +5,26 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="78427b85-37f9-4861-9abb-54c218350a8e" name="Changes" comment="Добавил Helm-charts">
-      <change afterPath="$PROJECT_DIR$/.idea/modules/user.main.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/user/charts/grafana/Chart.yaml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/user/charts/grafana/templates/configmap.yaml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/user/charts/grafana/templates/deployment.yaml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/user/charts/grafana/templates/ingress.yaml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/user/charts/grafana/templates/service.yaml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/user/charts/grafana/values.yaml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/user/charts/prometheus/Chart.yaml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/user/charts/prometheus/templates/configmap.yaml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/user/charts/prometheus/templates/deployment.yaml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/user/charts/prometheus/templates/ingress.yaml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/user/charts/prometheus/templates/service-account.yaml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/user/charts/prometheus/templates/service.yaml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/user/charts/prometheus/values.yaml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/user/charts/user-app/templates/service-monitor.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/user/src/main/java/ru/otus/user/config/JwtAuthenticationFilter.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/user/src/main/java/ru/otus/user/config/JwtUtil.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/user/src/main/java/ru/otus/user/config/SecurityConfig.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/user/src/main/java/ru/otus/user/controller/AuthController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/user/src/main/java/ru/otus/user/dto/AuthRequest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/user/src/main/java/ru/otus/user/dto/AuthResponse.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/user/src/main/java/ru/otus/user/dto/RegisterRequest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/user/src/main/java/ru/otus/user/service/AuthService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/user/src/main/java/ru/otus/user/service/SecurityService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/user/src/main/java/ru/otus/user/service/UserSecurity.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/user/src/main/resources/db/migration/V2__Add_password_column.sql" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/gradle.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/gradle.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/user/Dockerfile" beforeDir="false" afterPath="$PROJECT_DIR$/user/Dockerfile" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/user/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/user/build.gradle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/user/charts/user-app/values.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/user/charts/user-app/values.yaml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/user/src/main/java/ru/otus/user/controller/UserController.java" beforeDir="false" afterPath="$PROJECT_DIR$/user/src/main/java/ru/otus/user/controller/UserController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/user/src/main/java/ru/otus/user/model/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/user/src/main/java/ru/otus/user/model/User.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/user/src/main/java/ru/otus/user/repository/UserRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/user/src/main/java/ru/otus/user/repository/UserRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/user/src/main/java/ru/otus/user/service/UserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/user/src/main/java/ru/otus/user/service/UserService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/user/src/main/java/ru/otus/user/service/UserServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/user/src/main/java/ru/otus/user/service/UserServiceImpl.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/user/src/main/resources/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/user/src/main/resources/application.yml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -73,17 +71,17 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="Record" />
         <option value="Interface" />
-        <option value="Class" />
         <option value="Dockerfile" />
+        <option value="Record" />
+        <option value="Class" />
       </list>
     </option>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="add_helm_charts" />
+        <entry key="$PROJECT_DIR$" value="main" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -97,7 +95,7 @@
   <component name="GithubPullRequestsUISettings">{
   &quot;selectedUrlAndAccountId&quot;: {
     &quot;url&quot;: &quot;https://github.com/Cheburator2023/OTUS_Homework_Microservices.git&quot;,
-    &quot;accountId&quot;: &quot;8fbd1fd7-42b2-40be-abe9-7294824d5817&quot;
+    &quot;accountId&quot;: &quot;4f59c9a1-0002-40d1-8023-94274d0b08e7&quot;
   }
 }</component>
   <component name="KubernetesApiPersistence">{}</component>
@@ -111,24 +109,27 @@
   &quot;associatedIndex&quot;: 6
 }</component>
   <component name="ProjectId" id="2yj1XRAFnlrQltjjojknmbTv6sp" />
-  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
+    "Application.UserApplication.executor": "Run",
     "Docker.user/Dockerfile.executor": "Run",
     "Gradle.Build user.executor": "Run",
+    "Gradle.user [:ru.otus.user.UserApplication.main()].executor": "Run",
     "Gradle.user [clean].executor": "Run",
     "RequestMappingsPanelOrder0": "0",
     "RequestMappingsPanelOrder1": "1",
     "RequestMappingsPanelWidth0": "75",
     "RequestMappingsPanelWidth1": "75",
     "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
+    "RunOnceActivity.git.unshallow": "true",
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "Spring Boot.UserApplication.executor": "Run",
-    "git-widget-placeholder": "feature/add__metrics",
+    "git-widget-placeholder": "feature/add__security__service",
     "ignore.virus.scanning.warn.message": "true",
     "jdk.selected.JAVA_MODULE": "openjdk-21",
     "kotlin-language-version-configured": "true",
@@ -137,11 +138,24 @@
     "node.js.selected.package.eslint": "(autodetect)",
     "node.js.selected.package.tslint": "(autodetect)",
     "nodejs_package_manager_path": "npm",
-    "settings.editor.selected.configurable": "project.propVCSSupport.DirectoryMappings",
+    "settings.editor.selected.configurable": "reference.settingsdialog.project.gradle",
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
-  <component name="RunManager" selected="Docker.user/Dockerfile">
+  <component name="RunManager" selected="Application.UserApplication">
+    <configuration name="UserApplication" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="ru.otus.user.UserApplication" />
+      <module name="user.main" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="ru.otus.user.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="user [clean]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
@@ -172,7 +186,9 @@
       </method>
     </configuration>
     <configuration default="true" type="docker-deploy" factoryName="dockerfile" temporary="true">
-      <deployment type="dockerfile" />
+      <deployment type="dockerfile">
+        <settings />
+      </deployment>
       <method v="2" />
     </configuration>
     <configuration name="user/Dockerfile" type="docker-deploy" factoryName="dockerfile" temporary="true" server-name="Docker">
@@ -186,6 +202,7 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Application.UserApplication" />
         <item itemvalue="Docker.user/Dockerfile" />
         <item itemvalue="Gradle.user [clean]" />
       </list>
@@ -194,8 +211,7 @@
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="bundled-jdk-9f38398b9061-39b83d9b5494-intellij.indexing.shared.core-IU-241.19416.15" />
-        <option value="bundled-js-predefined-1d06a55b98c1-0b3e54e931b4-JavaScript-IU-241.19416.15" />
+        <option value="bundled-jdk-9823dce3aa75-bf35d07a577b-intellij.indexing.shared.core-IU-252.23892.409" />
       </set>
     </attachedChunks>
   </component>
@@ -245,7 +261,7 @@
                   <entry key="branch">
                     <value>
                       <list>
-                        <option value="feature/add_metrics" />
+                        <option value="main" />
                       </list>
                     </value>
                   </entry>

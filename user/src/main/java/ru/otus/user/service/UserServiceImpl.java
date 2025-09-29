@@ -1,5 +1,7 @@
 package ru.otus.user.service;
 
+import org.springframework.security.crypto.password.PasswordEncoder;
+import ru.otus.user.dto.RegisterRequest;
 import ru.otus.user.exception.UserNotFoundException;
 import ru.otus.user.mapper.UserMapper;
 import ru.otus.user.model.User;
@@ -17,11 +19,26 @@ import java.util.List;
 public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     private final UserMapper userMapper;
+    private final PasswordEncoder passwordEncoder;
 
     @Override
     @Transactional
     public UserResponse createUser(UserRequest userRequest) {
-        User user = new User(userRequest.name(), userRequest.email());
+        // Для обратной совместимости - генерируем случайный пароль
+        String randomPassword = java.util.UUID.randomUUID().toString().substring(0, 12);
+        User user = new User(userRequest.name(), userRequest.email(), passwordEncoder.encode(randomPassword));
+        User savedUser = userRepository.save(user);
+        return userMapper.toResponse(savedUser);
+    }
+
+    @Override
+    @Transactional
+    public UserResponse createUserWithPassword(RegisterRequest registerRequest) {
+        User user = new User(
+                registerRequest.name(),
+                registerRequest.email(),
+                passwordEncoder.encode(registerRequest.password())
+        );
         User savedUser = userRepository.save(user);
         return userMapper.toResponse(savedUser);
     }

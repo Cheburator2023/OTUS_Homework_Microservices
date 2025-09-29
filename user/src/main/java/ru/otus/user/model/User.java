@@ -24,12 +24,25 @@ public class User {
     @Column(nullable = false, unique = true)
     private String email;
 
+    @Setter
+    @Column(nullable = false)
+    private String password;
+
     @Column(name = "created_at", updatable = false)
     private Instant createdAt = Instant.now();
 
+    // Конструктор для регистрации (с паролем)
+    public User(String name, String email, String password) {
+        this.name = name;
+        this.email = email;
+        this.password = password;
+    }
+
+    // Конструктор без пароля (для обратной совместимости)
     public User(String name, String email) {
         this.name = name;
         this.email = email;
+        this.password = "defaultPassword123"; // или генерируем случайный
     }
 
     @Override

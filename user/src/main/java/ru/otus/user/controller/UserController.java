@@ -13,9 +13,11 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import ru.otus.user.dto.UserRequest;
 import ru.otus.user.dto.UserResponse;
+import ru.otus.user.service.SecurityService;
 import ru.otus.user.service.UserService;
 
 import java.util.List;
@@ -26,6 +28,7 @@ import java.util.List;
 @Tag(name = "User API", description = "Operations with users")
 public class UserController {
     private final UserService userService;
+    private final SecurityService securityService;
     private final MeterRegistry meterRegistry;
 
     private Counter buildApiCounter(String method,String statusCode) {
@@ -76,10 +79,13 @@ public class UserController {
                     content = @Content(schema = @Schema(implementation = UserResponse.class))),
             @ApiResponse(responseCode = "404", description = "User not found",
                     content = @Content),
+            @ApiResponse(responseCode = "403", description = "Access denied",
+                    content = @Content),
             @ApiResponse(responseCode = "500", description = "Internal server error",
                     content = @Content)
     })
     @Timed(value = "user_api_latency_seconds", extraTags = {"method", "getUser"})
+    @PreAuthorize("@securityService.isOwner(#id)")
     public UserResponse getUser(
             @Parameter(description = "ID of the user to be retrieved", required = true, example = "1")
             @PathVariable Long id
@@ -105,10 +111,13 @@ public class UserController {
                     content = @Content),
             @ApiResponse(responseCode = "404", description = "User not found",
                     content = @Content),
+            @ApiResponse(responseCode = "403", description = "Access denied",
+                    content = @Content),
             @ApiResponse(responseCode = "500", description = "Internal server error",
                     content = @Content)
     })
     @Timed(value = "user_api_latency_seconds", extraTags = {"method", "updateUser"})
+    @PreAuthorize("@securityService.isOwner(#id)")
     public UserResponse updateUser(
             @Parameter(description = "ID of the user to be updated", required = true, example = "1")
             @PathVariable Long id,
@@ -135,10 +144,13 @@ public class UserController {
                     content = @Content),
             @ApiResponse(responseCode = "404", description = "User not found",
                     content = @Content),
+            @ApiResponse(responseCode = "403", description = "Access denied",
+                    content = @Content),
             @ApiResponse(responseCode = "500", description = "Internal server error",
                     content = @Content)
     })
     @Timed(value = "user_api_latency_seconds", extraTags = {"method", "deleteUser"})
+    @PreAuthorize("@securityService.isOwner(#id)")
     public void deleteUser(
             @Parameter(description = "ID of the user to be deleted", required = true, example = "1")
             @PathVariable Long id
@@ -151,6 +163,59 @@ public class UserController {
         } catch (Exception e) {
             String statusCode = e instanceof jakarta.persistence.EntityNotFoundException ? "404" : "500";
             buildErrorCounter("deleteUser", statusCode).increment();
+            throw e;
+        }
+    }
+
+    @GetMapping("/me")
+    @Operation(summary = "Get current user profile")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "User found",
+                    content = @Content(schema = @Schema(implementation = UserResponse.class))),
+            @ApiResponse(responseCode = "404", description = "User not found",
+                    content = @Content),
+            @ApiResponse(responseCode = "500", description = "Internal server error",
+                    content = @Content)
+    })
+    @Timed(value = "user_api_latency_seconds", extraTags = {"method", "getCurrentUser"})
+    public UserResponse getCurrentUser() {
+        Long userId = securityService.getCurrentUserId();
+        Counter counter = buildApiCounter("getCurrentUser", "200");
+        counter.increment();
+
+        try {
+            return userService.getUserById(userId);
+        } catch (Exception e) {
+            String statusCode = e instanceof jakarta.persistence.EntityNotFoundException ? "404" : "500";
+            buildErrorCounter("getCurrentUser", statusCode).increment();
+            throw e;
+        }
+    }
+
+    @PutMapping("/me")
+    @Operation(summary = "Update current user profile")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "User updated successfully",
+                    content = @Content(schema = @Schema(implementation = UserResponse.class))),
+            @ApiResponse(responseCode = "400", description = "Invalid input data",
+                    content = @Content),
+            @ApiResponse(responseCode = "404", description = "User not found",
+                    content = @Content),
+            @ApiResponse(responseCode = "500", description = "Internal server error",
+                    content = @Content)
+    })
+    @Timed(value = "user_api_latency_seconds", extraTags = {"method", "updateCurrentUser"})
+    public UserResponse updateCurrentUser(@Valid @RequestBody UserRequest userRequest) {
+        Long userId = securityService.getCurrentUserId();
+        Counter counter = buildApiCounter("updateCurrentUser", "200");
+        counter.increment();
+
+        try {
+            return userService.updateUser(userId, userRequest);
+        } catch (Exception e) {
+            String statusCode = e instanceof jakarta.persistence.EntityNotFoundException ? "404" :
+                    e instanceof jakarta.validation.ValidationException ? "400" : "500";
+            buildErrorCounter("updateCurrentUser", statusCode).increment();
             throw e;
         }
     }
