@@ -4,28 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="78427b85-37f9-4861-9abb-54c218350a8e" name="Changes" comment="Добавил Helm-charts">
-      <change afterPath="$PROJECT_DIR$/user/src/main/java/ru/otus/user/config/JwtAuthenticationFilter.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/user/src/main/java/ru/otus/user/config/JwtUtil.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/user/src/main/java/ru/otus/user/config/SecurityConfig.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/user/src/main/java/ru/otus/user/controller/AuthController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/user/src/main/java/ru/otus/user/dto/AuthRequest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/user/src/main/java/ru/otus/user/dto/AuthResponse.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/user/src/main/java/ru/otus/user/dto/RegisterRequest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/user/src/main/java/ru/otus/user/service/AuthService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/user/src/main/java/ru/otus/user/service/SecurityService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/user/src/main/java/ru/otus/user/service/UserSecurity.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/user/src/main/resources/db/migration/V2__Add_password_column.sql" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/gradle.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/gradle.xml" afterDir="false" />
+    <list default="true" id="78427b85-37f9-4861-9abb-54c218350a8e" name="Changes" comment="Добавил SecurityService">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/user/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/user/build.gradle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/user/src/main/java/ru/otus/user/controller/UserController.java" beforeDir="false" afterPath="$PROJECT_DIR$/user/src/main/java/ru/otus/user/controller/UserController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/user/src/main/java/ru/otus/user/model/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/user/src/main/java/ru/otus/user/model/User.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/user/src/main/java/ru/otus/user/repository/UserRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/user/src/main/java/ru/otus/user/repository/UserRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/user/src/main/java/ru/otus/user/service/UserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/user/src/main/java/ru/otus/user/service/UserService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/user/src/main/java/ru/otus/user/service/UserServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/user/src/main/java/ru/otus/user/service/UserServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/user/src/main/resources/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/user/src/main/resources/application.yml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -244,7 +225,15 @@
       <option name="project" value="LOCAL" />
       <updated>1751980449755</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="Добавил SecurityService">
+      <option name="closed" value="true" />
+      <created>1759160060762</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1759160060762</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -276,6 +265,7 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Создал RESTful CRUD-приложение" />
     <MESSAGE value="Добавил Helm-charts" />
-    <option name="LAST_COMMIT_MESSAGE" value="Добавил Helm-charts" />
+    <MESSAGE value="Добавил SecurityService" />
+    <option name="LAST_COMMIT_MESSAGE" value="Добавил SecurityService" />
   </component>
 </project>
