@@ -3,6 +3,7 @@ package ru.otus.user.config;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
@@ -28,7 +29,11 @@ public class SecurityConfig {
                 .csrf(csrf -> csrf.disable())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/api/v1/auth/**", "/swagger-ui/**", "/v3/api-docs/**", "/actuator/health").permitAll()
+                        .requestMatchers("/api/v1/auth/**", "/swagger-ui/**",
+                                "/v3/api-docs/**", "/actuator/health").permitAll()
+                        .requestMatchers("/api/v1/users/me").authenticated()
+                        .requestMatchers(HttpMethod.GET, "/api/v1/users/**").hasRole("USER")
+                        .requestMatchers(HttpMethod.PUT, "/api/v1/users/**").hasRole("USER")
                         .anyRequest().authenticated()
                 )
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);

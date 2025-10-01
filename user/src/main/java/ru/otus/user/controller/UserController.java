@@ -85,7 +85,7 @@ public class UserController {
                     content = @Content)
     })
     @Timed(value = "user_api_latency_seconds", extraTags = {"method", "getUser"})
-    @PreAuthorize("@securityService.isOwner(#id)")
+    @PreAuthorize("@securityService.canAccessUserProfile(#id)")
     public UserResponse getUser(
             @Parameter(description = "ID of the user to be retrieved", required = true, example = "1")
             @PathVariable Long id

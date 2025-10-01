@@ -31,4 +31,8 @@ public class SecurityService {
                 .map(User::getId)
                 .orElseThrow(() -> new RuntimeException("User not found"));
     }
+
+    public boolean canAccessUserProfile(Long userId) {
+        return isOwner(userId);
+    }
 }
