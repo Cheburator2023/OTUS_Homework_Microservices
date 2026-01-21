@@ -3,6 +3,8 @@ package ru.otus.user.exception;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -26,6 +28,38 @@ public class GlobalExceptionHandler {
                 .collect(Collectors.joining(", "));
         return ResponseEntity.badRequest()
                 .body(new ErrorResponse("VALIDATION_ERROR", message));
+    }
+
+    @ExceptionHandler(BadCredentialsException.class)
+    public ResponseEntity<ErrorResponse> handleBadCredentials(BadCredentialsException ex) {
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                .body(new ErrorResponse("INVALID_CREDENTIALS", "Invalid email or password"));
+    }
+
+    @ExceptionHandler(AccessDeniedException.class)
+    public ResponseEntity<ErrorResponse> handleAccessDenied(AccessDeniedException ex) {
+        return ResponseEntity.status(HttpStatus.FORBIDDEN)
+                .body(new ErrorResponse("ACCESS_DENIED", "You don't have permission to access this resource"));
+    }
+
+    @ExceptionHandler(RuntimeException.class)
+    public ResponseEntity<ErrorResponse> handleRuntimeExceptions(RuntimeException ex) {
+        HttpStatus status = HttpStatus.INTERNAL_SERVER_ERROR;
+        String code = "INTERNAL_ERROR";
+
+        if (ex.getMessage().contains("already exists")) {
+            status = HttpStatus.BAD_REQUEST;
+            code = "DUPLICATE_EMAIL";
+        } else if (ex.getMessage().contains("not found")) {
+            status = HttpStatus.NOT_FOUND;
+            code = "NOT_FOUND";
+        } else if (ex.getMessage().contains("Invalid email or password")) {
+            status = HttpStatus.UNAUTHORIZED;
+            code = "INVALID_CREDENTIALS";
+        }
+
+        return ResponseEntity.status(status)
+                .body(new ErrorResponse(code, ex.getMessage()));
     }
 
     @ExceptionHandler(Exception.class)
