@@ -4,24 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="78427b85-37f9-4861-9abb-54c218350a8e" name="Changes" comment="Добавил Helm-charts">
-      <change afterPath="$PROJECT_DIR$/user/src/main/java/ru/otus/user/exception/EmailAlreadyExistsException.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/user/src/main/java/ru/otus/user/exception/InvalidCredentialsException.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/user/src/main/java/ru/otus/user/service/AuthService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/user/src/main/java/ru/otus/user/service/MetricService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/user/src/main/java/ru/otus/user/service/ProfileService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/user/user_auth_tests_scenario.postman_collection.json" afterDir="false" />
+    <list default="true" id="78427b85-37f9-4861-9abb-54c218350a8e" name="Changes" comment="feat: Добавил тесты">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/user/Dockerfile" beforeDir="false" afterPath="$PROJECT_DIR$/user/Dockerfile" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/user/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/user/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/user/charts/grafana/templates/ingress.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/user/charts/grafana/templates/ingress.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/user/charts/prometheus/templates/ingress.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/user/charts/prometheus/templates/ingress.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/user/src/main/java/ru/otus/user/controller/AuthController.java" beforeDir="false" afterPath="$PROJECT_DIR$/user/src/main/java/ru/otus/user/controller/AuthController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/user/src/main/java/ru/otus/user/controller/ProfileController.java" beforeDir="false" afterPath="$PROJECT_DIR$/user/src/main/java/ru/otus/user/controller/ProfileController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/user/src/main/java/ru/otus/user/controller/UserController.java" beforeDir="false" afterPath="$PROJECT_DIR$/user/src/main/java/ru/otus/user/controller/UserController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/user/src/main/java/ru/otus/user/exception/GlobalExceptionHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/user/src/main/java/ru/otus/user/exception/GlobalExceptionHandler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/user/src/main/java/ru/otus/user/service/CustomUserDetailsService.java" beforeDir="false" afterPath="$PROJECT_DIR$/user/src/main/java/ru/otus/user/service/CustomUserDetailsService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/user/src/main/java/ru/otus/user/service/UserServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/user/src/main/java/ru/otus/user/service/UserServiceImpl.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -110,37 +94,36 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Docker.user/Dockerfile.executor": "Run",
-    "Gradle.Build user.executor": "Run",
-    "Gradle.user [build].executor": "Run",
-    "Gradle.user [clean].executor": "Run",
-    "RequestMappingsPanelOrder0": "0",
-    "RequestMappingsPanelOrder1": "1",
-    "RequestMappingsPanelWidth0": "75",
-    "RequestMappingsPanelWidth1": "75",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "Spring Boot.UserApplication.executor": "Run",
-    "git-widget-placeholder": "add__security__service__2__0",
-    "ignore.virus.scanning.warn.message": "true",
-    "jdk.selected.JAVA_MODULE": "openjdk-21",
-    "kotlin-language-version-configured": "true",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "settings.editor.selected.configurable": "project.propVCSSupport.DirectoryMappings",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Docker.user/Dockerfile.executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.Build user.executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.user [build].executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.user [clean].executor&quot;: &quot;Run&quot;,
+    &quot;RequestMappingsPanelOrder0&quot;: &quot;0&quot;,
+    &quot;RequestMappingsPanelOrder1&quot;: &quot;1&quot;,
+    &quot;RequestMappingsPanelWidth0&quot;: &quot;75&quot;,
+    &quot;RequestMappingsPanelWidth1&quot;: &quot;75&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;Spring Boot.UserApplication.executor&quot;: &quot;Run&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;add__security__service__2__0&quot;,
+    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
+    &quot;jdk.selected.JAVA_MODULE&quot;: &quot;openjdk-21&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;project.propVCSSupport.DirectoryMappings&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   },
-  "keyToStringList": {
-    "DatabaseDriversLRU": [
-      "postgresql"
+  &quot;keyToStringList&quot;: {
+    &quot;DatabaseDriversLRU&quot;: [
+      &quot;postgresql&quot;
     ]
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\Users\Zver\IdeaProjects\OTUS_Homework_Microservices\user" />
@@ -260,7 +243,15 @@
       <option name="project" value="LOCAL" />
       <updated>1751980449755</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="feat: Добавил тесты">
+      <option name="closed" value="true" />
+      <created>1773012418651</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1773012418651</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -303,6 +294,7 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Создал RESTful CRUD-приложение" />
     <MESSAGE value="Добавил Helm-charts" />
-    <option name="LAST_COMMIT_MESSAGE" value="Добавил Helm-charts" />
+    <MESSAGE value="feat: Добавил тесты" />
+    <option name="LAST_COMMIT_MESSAGE" value="feat: Добавил тесты" />
   </component>
 </project>
