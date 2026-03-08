@@ -2,7 +2,7 @@
 
 ### 1. Установка БД из Helm:
 #### Добавьте репозиторий Bitnami
-helm repo add bitnami https://raw.githubusercontent.com/bitnami/charts/archive-full-index/bitnami
+helm repo add bitnami https://charts.bitnami.com/bitnami
 
 #### Создание namespace
 kubectl create namespace user-app
@@ -16,11 +16,36 @@ helm install postgres bitnami/postgresql -n user-app \
 --set volumePermissions.enabled=true
 
 ### 2. Запуск Ingress, Prometheus и Grafana:
-#### Запуск Ingress
-#### Создание namespace
-kubectl create namespace ingress-nginx
 
-#### Запуск Ingress
+#### 2.1 Установка CRD для ServiceMonitor
+kubectl apply -f https://raw.githubusercontent.com/prometheus-operator/prometheus-operator/main/example/prometheus-operator-crd/monitoring.coreos.com_servicemonitors.yaml
+
+#### 2.2 Запуск Prometheus
+helm install prometheus ./charts/prometheus -n user-app
+
+#### 2.3 Подготовка к установке Ingress
+
+#### Создаём namespace для ingress-nginx (если ещё не создан)
+kubectl create namespace ingress-nginx --dry-run=client -o yaml | kubectl apply -f -
+
+#### Проверяем, есть ли уже релиз ingress-nginx от Helm
+helm list -n ingress-nginx | findstr ingress-nginx
+if %errorlevel% equ 0 (
+    echo Релиз ingress-nginx уже существует. Удаляем его...
+    helm uninstall ingress-nginx -n ingress-nginx
+)
+
+#### Удаляем все оставшиеся cluster-wide ресурсы, которые могут конфликтовать
+kubectl delete clusterrole ingress-nginx --ignore-not-found
+kubectl delete clusterrolebinding ingress-nginx --ignore-not-found
+kubectl delete ingressclass nginx --ignore-not-found
+kubectl delete validatingwebhookconfiguration ingress-nginx --ignore-not-found
+kubectl delete validatingwebhookconfiguration ingress-nginx-admission --ignore-not-found
+kubectl delete mutatingwebhookconfiguration ingress-nginx --ignore-not-found
+kubectl delete mutatingwebhookconfiguration ingress-nginx-admission --ignore-not-found
+
+#### 2.4 Установка Ingress
+
 helm install ingress-nginx ingress-nginx/ingress-nginx \
 --namespace ingress-nginx \
 --set controller.metrics.enabled=true \
@@ -29,25 +54,24 @@ helm install ingress-nginx ingress-nginx/ingress-nginx \
 --set controller.podAnnotations."prometheus\.io/scrape"="true" \
 --set controller.podAnnotations."prometheus\.io/port"="10254"
 
-#### Проброс внешнего порта из minikube
+#### 2.5 Проброс внешнего порта из minikube
 minikube tunnel
 
-#### Запуск Prometheus
-helm install prometheus ./charts/prometheus -n user-app
-
-#### Запуск Grafana
+#### 2.6 Запуск Grafana
 helm install grafana ./charts/grafana -n user-app
 
 ### 3. Запуск приложения:
 
 #### Сборка образа:
-docker build -t yourusername/user-app:latest .
+docker build -t victor2023victorovich/user-app:latest .
 
 #### Загрузка образа на DockerHub
-docker push yourusername/user-app:latest
+docker push victor2023victorovich/user-app:latest
 
 #### Запуск приложения:
-helm install user-app ./user/charts/user-app
+helm install user-app ./charts/user-app -n user-app
+#### Обновление приложения: 
+helm upgrade --install user-app ./charts/user-app -n user-app
 
 ### 4. Проверка работы:
 #### Проверить поды:

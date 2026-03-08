@@ -1,8 +1,6 @@
 package ru.otus.user.controller;
 
 import io.micrometer.core.annotation.Timed;
-import io.micrometer.core.instrument.Counter;
-import io.micrometer.core.instrument.MeterRegistry;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -26,23 +24,6 @@ import java.util.List;
 @Tag(name = "User API", description = "Operations with users")
 public class UserController {
     private final UserService userService;
-    private final MeterRegistry meterRegistry;
-
-    private Counter buildApiCounter(String method,String statusCode) {
-        return Counter.builder("user_api_calls")
-                .tag("method", method)
-                .tag("status_code", statusCode)
-                .description("Total number of " + method + " calls")
-                .register(meterRegistry);
-    }
-
-    private Counter buildErrorCounter(String method, String statusCode) {
-        return Counter.builder("user_api_errors")
-                .tag("method", method)
-                .tag("status_code", statusCode)
-                .description("Number of API errors for " + method)
-                .register(meterRegistry);
-    }
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
@@ -57,16 +38,7 @@ public class UserController {
     })
     @Timed(value = "user_api_latency_seconds", extraTags = {"method", "createUser"})
     public UserResponse createUser(@Valid @RequestBody UserRequest userRequest) {
-        Counter counter = buildApiCounter("createUser", "201");
-        counter.increment();
-
-        try {
-            return userService.createUser(userRequest);
-        } catch (Exception e) {
-            String statusCode = e instanceof jakarta.validation.ValidationException ? "400" : "500";
-            buildErrorCounter("createUser", statusCode).increment();
-            throw e;
-        }
+        return userService.createUser(userRequest);
     }
 
     @GetMapping("/{id}")
@@ -84,16 +56,7 @@ public class UserController {
             @Parameter(description = "ID of the user to be retrieved", required = true, example = "1")
             @PathVariable Long id
     ) {
-        Counter counter = buildApiCounter("getUser", "200");
-        counter.increment();
-
-        try {
-            return userService.getUserById(id);
-        } catch (Exception e) {
-            String statusCode = e instanceof jakarta.persistence.EntityNotFoundException ? "404" : "500";
-            buildErrorCounter("getUser", statusCode).increment();
-            throw e;
-        }
+        return userService.getUserById(id);
     }
 
     @PutMapping("/{id}")
@@ -114,17 +77,7 @@ public class UserController {
             @PathVariable Long id,
             @Valid @RequestBody UserRequest userRequest
     ) {
-        Counter counter = buildApiCounter("updateUser", "200");
-        counter.increment();
-
-        try {
-            return userService.updateUser(id, userRequest);
-        } catch (Exception e) {
-            String statusCode = e instanceof jakarta.persistence.EntityNotFoundException ? "404" :
-                    e instanceof jakarta.validation.ValidationException ? "400" : "500";
-            buildErrorCounter("updateUser", statusCode).increment();
-            throw e;
-        }
+        return userService.updateUser(id, userRequest);
     }
 
     @DeleteMapping("/{id}")
@@ -143,16 +96,7 @@ public class UserController {
             @Parameter(description = "ID of the user to be deleted", required = true, example = "1")
             @PathVariable Long id
     ) {
-        Counter counter = buildApiCounter("deleteUser", "204");
-        counter.increment();
-
-        try {
-            userService.deleteUser(id);
-        } catch (Exception e) {
-            String statusCode = e instanceof jakarta.persistence.EntityNotFoundException ? "404" : "500";
-            buildErrorCounter("deleteUser", statusCode).increment();
-            throw e;
-        }
+        userService.deleteUser(id);
     }
 
     @GetMapping
@@ -165,14 +109,6 @@ public class UserController {
     })
     @Timed(value = "user_api_latency_seconds", extraTags = {"method", "getAllUsers"})
     public List<UserResponse> getAllUsers() {
-        Counter counter = buildApiCounter("getAllUsers", "200");
-        counter.increment();
-
-        try {
-            return userService.getAllUsers();
-        } catch (Exception e) {
-            buildErrorCounter("getAllUsers", "500").increment();
-            throw e;
-        }
+        return userService.getAllUsers();
     }
 }

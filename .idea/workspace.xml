@@ -5,30 +5,23 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="78427b85-37f9-4861-9abb-54c218350a8e" name="Changes" comment="Добавил Helm-charts">
-      <change afterPath="$PROJECT_DIR$/user/UserAuthTests.postman_collection.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/user/charts/user-app/templates/jwt-secret.yaml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/user/src/main/java/ru/otus/user/config/SecurityConfig.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/user/src/main/java/ru/otus/user/controller/AuthController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/user/src/main/java/ru/otus/user/controller/ProfileController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/user/src/main/java/ru/otus/user/dto/AuthRequest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/user/src/main/java/ru/otus/user/dto/AuthResponse.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/user/src/main/java/ru/otus/user/dto/ProfileUpdateRequest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/user/src/main/java/ru/otus/user/dto/RegisterRequest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/user/src/main/java/ru/otus/user/security/JwtAuthFilter.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/user/src/main/java/ru/otus/user/security/JwtTokenProvider.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/user/src/main/java/ru/otus/user/service/CustomUserDetailsService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/user/src/main/resources/db/migration/V2__Add_auth_columns.sql" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/user/src/main/java/ru/otus/user/exception/EmailAlreadyExistsException.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/user/src/main/java/ru/otus/user/exception/InvalidCredentialsException.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/user/src/main/java/ru/otus/user/service/AuthService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/user/src/main/java/ru/otus/user/service/MetricService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/user/src/main/java/ru/otus/user/service/ProfileService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/user/user_auth_tests_scenario.postman_collection.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/user/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/user/build.gradle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/user/charts/user-app/templates/deployment.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/user/charts/user-app/templates/deployment.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/user/charts/user-app/templates/ingress.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/user/charts/user-app/templates/ingress.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/user/charts/user-app/values.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/user/charts/user-app/values.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/user/Dockerfile" beforeDir="false" afterPath="$PROJECT_DIR$/user/Dockerfile" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/user/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/user/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/user/charts/grafana/templates/ingress.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/user/charts/grafana/templates/ingress.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/user/charts/prometheus/templates/ingress.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/user/charts/prometheus/templates/ingress.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/user/src/main/java/ru/otus/user/controller/AuthController.java" beforeDir="false" afterPath="$PROJECT_DIR$/user/src/main/java/ru/otus/user/controller/AuthController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/user/src/main/java/ru/otus/user/controller/ProfileController.java" beforeDir="false" afterPath="$PROJECT_DIR$/user/src/main/java/ru/otus/user/controller/ProfileController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/user/src/main/java/ru/otus/user/controller/UserController.java" beforeDir="false" afterPath="$PROJECT_DIR$/user/src/main/java/ru/otus/user/controller/UserController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/user/src/main/java/ru/otus/user/exception/GlobalExceptionHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/user/src/main/java/ru/otus/user/exception/GlobalExceptionHandler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/user/src/main/java/ru/otus/user/model/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/user/src/main/java/ru/otus/user/model/User.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/user/src/main/java/ru/otus/user/repository/UserRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/user/src/main/java/ru/otus/user/repository/UserRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/user/src/main/java/ru/otus/user/service/UserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/user/src/main/java/ru/otus/user/service/UserService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/user/src/main/java/ru/otus/user/service/CustomUserDetailsService.java" beforeDir="false" afterPath="$PROJECT_DIR$/user/src/main/java/ru/otus/user/service/CustomUserDetailsService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/user/src/main/java/ru/otus/user/service/UserServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/user/src/main/java/ru/otus/user/service/UserServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/user/src/main/resources/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/user/src/main/resources/application.yml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -121,6 +114,7 @@
   "keyToString": {
     "Docker.user/Dockerfile.executor": "Run",
     "Gradle.Build user.executor": "Run",
+    "Gradle.user [build].executor": "Run",
     "Gradle.user [clean].executor": "Run",
     "RequestMappingsPanelOrder0": "0",
     "RequestMappingsPanelOrder1": "1",
@@ -140,6 +134,11 @@
     "nodejs_package_manager_path": "npm",
     "settings.editor.selected.configurable": "project.propVCSSupport.DirectoryMappings",
     "vue.rearranger.settings.migration": "true"
+  },
+  "keyToStringList": {
+    "DatabaseDriversLRU": [
+      "postgresql"
+    ]
   }
 }]]></component>
   <component name="RecentsManager">
@@ -216,9 +215,9 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Gradle.user [clean]" />
-        <item itemvalue="Gradle.user [build]" />
         <item itemvalue="Docker.user/Dockerfile" />
+        <item itemvalue="Gradle.user [build]" />
+        <item itemvalue="Gradle.user [clean]" />
         <item itemvalue="Docker.user/Dockerfile" />
         <item itemvalue="Gradle.user [clean]" />
       </list>
@@ -266,6 +265,17 @@
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.History.Properties">
+    <option name="COLUMN_ID_ORDER">
+      <list>
+        <option value="Default.Root" />
+        <option value="Default.Author" />
+        <option value="Default.Date" />
+        <option value="Default.Subject" />
+        <option value="GitHub.CommitStatus" />
+      </list>
+    </option>
   </component>
   <component name="Vcs.Log.Tabs.Properties">
     <option name="TAB_STATES">
