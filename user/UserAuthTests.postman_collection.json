@@ -1,0 +1,309 @@
+{
+  "info": {
+    "name": "User Authentication Tests",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://arch.homework",
+      "type": "string"
+    },
+    {
+      "key": "user1Token",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "user2Token",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "user1Id",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "user2Id",
+      "value": "",
+      "type": "string"
+    }
+  ],
+  "item": [
+    {
+      "name": "Register User 1",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "const randomId = Math.floor(Math.random() * 10000);",
+              "pm.variables.set('user1Email', `user1_${randomId}@example.com`);",
+              "pm.variables.set('user1Name', `User One ${randomId}`);",
+              "pm.variables.set('user1Password', `Password${randomId}!`);"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"name\": \"{{user1Name}}\",\n  \"email\": \"{{user1Email}}\",\n  \"password\": \"{{user1Password}}\"\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/api/v1/auth/register",
+          "protocol": "http",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "v1", "auth", "register"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Try to get profile without login (should fail)",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/api/v1/profile",
+          "protocol": "http",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "v1", "profile"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Login User 1",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "const response = pm.response.json();",
+              "pm.variables.set('user1Token', response.token);",
+              "pm.variables.set('user1Id', response.user.id);",
+              "pm.test(\"Login successful\", function() {",
+              "    pm.expect(pm.response.code).to.equal(200);",
+              "    pm.expect(response.token).to.be.a('string');",
+              "    pm.expect(response.user.email).to.equal(pm.variables.get('user1Email'));",
+              "});"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"email\": \"{{user1Email}}\",\n  \"password\": \"{{user1Password}}\"\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/api/v1/auth/login",
+          "protocol": "http",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "v1", "auth", "login"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Update User 1 Profile",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "const randomSuffix = Math.floor(Math.random() * 1000);",
+              "pm.variables.set('user1NewName', `Updated User One ${randomSuffix}`);",
+              "pm.variables.set('user1NewEmail', `updated.user1_${randomSuffix}@example.com`);"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{user1Token}}"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"name\": \"{{user1NewName}}\",\n  \"email\": \"{{user1NewEmail}}\"\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/api/v1/profile",
+          "protocol": "http",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "v1", "profile"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Verify User 1 Profile Updated",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{user1Token}}"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/api/v1/profile",
+          "protocol": "http",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "v1", "profile"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Logout User 1",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{user1Token}}"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/api/v1/auth/logout",
+          "protocol": "http",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "v1", "auth", "logout"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Register User 2",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "const randomId = Math.floor(Math.random() * 10000);",
+              "pm.variables.set('user2Email', `user2_${randomId}@example.com`);",
+              "pm.variables.set('user2Name', `User Two ${randomId}`);",
+              "pm.variables.set('user2Password', `Password${randomId}!`);"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"name\": \"{{user2Name}}\",\n  \"email\": \"{{user2Email}}\",\n  \"password\": \"{{user2Password}}\"\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/api/v1/auth/register",
+          "protocol": "http",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "v1", "auth", "register"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Login User 2",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "const response = pm.response.json();",
+              "pm.variables.set('user2Token', response.token);",
+              "pm.variables.set('user2Id', response.user.id);"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"email\": \"{{user2Email}}\",\n  \"password\": \"{{user2Password}}\"\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/api/v1/auth/login",
+          "protocol": "http",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "v1", "auth", "login"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Try to access User 1 profile as User 2 (should only see own profile)",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{user2Token}}"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/api/v1/profile",
+          "protocol": "http",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "v1", "profile"]
+        }
+      },
+      "response": []
+    }
+  ]
+}

@@ -38,6 +38,8 @@ config:
         ddl-auto: validate
     flyway:
       enabled: true
+  jwt:
+    secret: "your-256-bit-secret-key-for-jwt-signing-here-please-change"
 monitoring:
   enabled: true
   interval: 15s

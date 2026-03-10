@@ -1,17 +1,41 @@
-FROM bellsoft/liberica-openjdk-debian:21 as builder
+# ---- Этап сборки ----
+FROM gradle:8.5-jdk21 AS builder
+
 WORKDIR /app
 
-RUN apt-get update && apt-get install -y wget unzip && \
-    wget https://mirrors.cloud.tencent.com/gradle/gradle-8.5-bin.zip -O /tmp/gradle.zip && \
-    unzip -d /opt /tmp/gradle.zip && \
-    ln -s /opt/gradle-8.5/bin/gradle /usr/bin/gradle && \
-    rm /tmp/gradle.zip
+# Копируем только файлы, необходимые для загрузки зависимостей
+COPY build.gradle settings.gradle gradlew ./
+COPY gradle gradle
 
-COPY . .
-RUN gradle build --no-daemon -x test
+# Даём права на выполнение gradlew
+RUN chmod +x gradlew
 
+# Загружаем зависимости (кэшируем этот слой)
+RUN ./gradlew dependencies --no-daemon
+
+# Теперь копируем остальной исходный код
+COPY src src
+
+# Собираем приложение (без тестов для ускорения)
+RUN ./gradlew build --no-daemon -x test
+
+# ---- Финальный образ ----
 FROM bellsoft/liberica-openjdk-debian:21
+
+# Создаём непривилегированного пользователя
+RUN addgroup --system --gid 1001 appuser && \
+    adduser --system --uid 1001 --gid 1001 appuser
+
 WORKDIR /app
+
+# Копируем JAR-файл из этапа сборки
 COPY --from=builder /app/build/libs/*.jar app.jar
-EXPOSE 8080
+
+# Указываем порт, который слушает приложение (из application.yml)
+EXPOSE 8000
+
+# Переключаемся на непривилегированного пользователя
+USER appuser
+
+# Точка входа
 ENTRYPOINT ["java", "-jar", "app.jar"]
