@@ -74,3 +74,6 @@ springdoc:
     disabled: true
   show-actuator: false
 
+services:
+  billing:
+    url: http://billing-service:8001  # service name в Kubernetes

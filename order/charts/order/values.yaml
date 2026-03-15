@@ -1,0 +1,38 @@
+replicaCount: 1
+image:
+  repository: victor2023victorovich/order-app
+  tag: latest
+  pullPolicy: IfNotPresent
+service:
+  type: NodePort
+  port: 8003
+  nodePort: 30081
+ingress:
+  enabled: true
+  className: "nginx"
+  annotations:
+    nginx.ingress.kubernetes.io/ssl-redirect: "false"
+  hosts:
+    - host: order.arch.homework
+      paths:
+        - path: /
+          pathType: Prefix
+database:
+  url: jdbc:postgresql://postgres-postgresql:5432/order_db
+  username: postgres
+  password: postgres
+  driver: org.postgresql.Driver
+config:
+  spring:
+    jpa:
+      hibernate:
+        ddl-auto: validate
+    flyway:
+      enabled: true
+  jwt:
+    secret: "your-256-bit-secret-key-for-jwt-signing-here-please-change"
+services:
+  billing:
+    url: "http://billing-app:8001"
+  notification:
+    url: "http://notification-app:8002"

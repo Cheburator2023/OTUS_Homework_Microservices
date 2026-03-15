@@ -1,0 +1,33 @@
+replicaCount: 1
+image:
+  repository: victor2023victorovich/billing-app
+  tag: latest
+  pullPolicy: IfNotPresent
+service:
+  type: NodePort
+  port: 8001
+  nodePort: 30081
+ingress:
+  enabled: true
+  className: "nginx"
+  annotations:
+    nginx.ingress.kubernetes.io/ssl-redirect: "false"
+  hosts:
+    - host: billing.arch.homework
+      paths:
+        - path: /
+          pathType: Prefix
+database:
+  url: jdbc:postgresql://postgres-postgresql:5432/billing_db
+  username: postgres
+  password: postgres
+  driver: org.postgresql.Driver
+config:
+  spring:
+    jpa:
+      hibernate:
+        ddl-auto: validate
+    flyway:
+      enabled: true
+  jwt:
+    secret: "your-256-bit-secret-key-for-jwt-signing-here-please-change"
