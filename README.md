@@ -1,131 +1,277 @@
-## Инструкции по запуску и тестированию:
+# Микросервисное приложение: User / Billing / Notification / Order
 
-### 1. Установка БД из Helm:
-# Репозиторий Bitnami для PostgreSQL
+Данный проект реализует систему управления пользователями, биллингом, заказами и уведомлениями в соответствии с заданием.  
+Взаимодействие между сервисами построено на синхронных HTTP‑вызовах (REST).
+
+---
+
+## Содержание
+
+- [Архитектура решения](#архитектура-решения)
+- [Предварительные требования](#предварительные-требования)
+- [Установка](#установка)
+    - [1. Установка PostgreSQL](#1-установка-postgresql)
+    - [2. Установка Ingress Controller](#2-установка-ingress-controller)
+    - [3. (Опционально) Prometheus и Grafana](#3-опционально-prometheus-и-grafana)
+    - [4. Сборка и публикация Docker‑образов](#4-сборка-и-публикация-dockerобразов)
+    - [5. Установка микросервисов](#5-установка-микросервисов)
+- [Проверка работоспособности](#проверка-работоспособности)
+- [Тестирование](#тестирование)
+    - [Postman‑коллекция](#postmanколлекция)
+    - [Результат выполнения тестов](#результат-выполнения-тестов)
+- [Нагрузочное тестирование (k6)](#нагрузочное-тестирование-k6)
+
+---
+
+## Архитектура решения
+
+Общая схема взаимодействия сервисов и диаграмма последовательности для сценария создания заказа представлены ниже:
+
+| Общая архитектура | Диаграмма последовательности (создание заказа) |
+|-------------------|-------------------------------------------------|
+| ![Общая архитектура](user/General_architecture.png) | ![Диаграмма последовательности](user/Diagramm_sequence.png) |
+
+**Описание взаимодействия при создании заказа:**
+
+1. Пользователь отправляет запрос `POST /api/v1/orders` в сервис **Order**.
+2. Сервис **Order** вызывает `POST /api/v1/accounts/{userId}/withdraw` в сервисе **Billing** для списания средств.
+3. В зависимости от ответа Billing:
+    - если списание успешно – статус заказа `SUCCESS`, иначе `FAILED`.
+4. **Order** сохраняет заказ в своей БД.
+5. **Order** отправляет уведомление в сервис **Notification** (`POST /api/v1/notifications`).
+6. **Notification** сохраняет уведомление в своей БД и возвращает статус.
+
+Все сервисы используют общую базу данных PostgreSQL (отдельные схемы/базы), развёрнутую в кластере Kubernetes.
+
+---
+
+## Предварительные требования
+
+- Установленный [Minikube](https://minikube.sigs.k8s.io/docs/start/) или рабочее Kubernetes‑окружение.
+- Установленный [Helm](https://helm.sh/docs/intro/install/) (версия 3.x).
+- Установленный `kubectl`.
+- Для сборки образов – Docker.
+- Для тестирования – [Newman](https://learning.postman.com/docs/running-collections/using-newman-cli/command-line-integration-with-newman/) (или Postman) и [k6](https://k6.io/docs/get-started/installation/).
+
+Убедитесь, что Minikube запущен:
+```bash
+minikube start
+```
+
+## Установка
+Все компоненты устанавливаются в namespace microservices.
+Ingress‑контроллер размещается в namespace ingress-nginx.
+
+### 1. Установка PostgreSQL
+Добавим репозиторий Bitnami и установим PostgreSQL без постоянного хранилища (для тестового окружения).
+
+```bash
 helm repo add bitnami https://charts.bitnami.com/bitnami
-
-# Репозиторий Ingress Nginx
-helm repo add ingress-nginx https://kubernetes.github.io/ingress-nginx
-
-# Обновление репозиториев
+```
+Обновим при необходимости
+```bash
 helm repo update
-
-#### Создание namespace
+```
+Создаем нэймспэйс
+```bash
 kubectl create namespace microservices
-
-#### Запуск PostgreSQL
+```
+Установка PostgreSQL
+```bash
 helm install postgres bitnami/postgresql -n microservices \
---set auth.database=user_db \
---set auth.username=postgres \
---set auth.password=postgres \
---set primary.persistence.enabled=false \
---set volumePermissions.enabled=true
+  --set auth.database=user_db \
+  --set auth.username=postgres \
+  --set auth.password=postgres \
+  --set primary.persistence.enabled=false \
+  --set volumePermissions.enabled=true
+```
 
-# Получение имени пода PostgreSQL
-kubectl get pods -n microservices -l app.kubernetes.io/name=postgresql -o name
+Дождёмся, пока под PostgreSQL перейдёт в состояние Running:
 
-# Создание баз данных
-kubectl exec -n microservices -it <pod-name> -- bash
-psql -U postgres
+```bash
+kubectl get pods -n microservices -w
+```
+
+После этого создадим дополнительные базы данных для сервисов billing, notification и order:
+
+```bash
+# Получим имя пода PostgreSQL
+POD_NAME=$(kubectl get pods -n microservices -l app.kubernetes.io/name=postgresql -o jsonpath="{.items[0].metadata.name}")
+
+# Подключимся к поду и выполним SQL
+kubectl exec -n microservices -it $POD_NAME -- bash -c "psql -U postgres <<EOF
 CREATE DATABASE billing_db;
 CREATE DATABASE notification_db;
 CREATE DATABASE order_db;
-\q
-exit
-### 2. Запуск Ingress, Prometheus и Grafana:
+EOF"
+```
 
-#### 2.1 Установка CRD для ServiceMonitor
-kubectl apply -f https://raw.githubusercontent.com/prometheus-operator/prometheus-operator/main/example/prometheus-operator-crd/monitoring.coreos.com_servicemonitors.yaml
+### 2. Установка Ingress Controller
+Установим NGINX Ingress Controller с включёнными метриками для Prometheus.
 
-#### 2.2 Подготовка к установке Ingress
+```bash
+# Добавим репозиторий ingress-nginx
+helm repo add ingress-nginx https://kubernetes.github.io/ingress-nginx
+```
 
-#### Создаём namespace для ingress-nginx (если ещё не создан)
+```bash
+# Обновим при необходимости
+helm repo update
+```
+
+### Создадим namespace
+```bash
 kubectl create namespace ingress-nginx --dry-run=client -o yaml | kubectl apply -f -
+```
 
-# Проверить, есть ли уже релиз ingress-nginx
-helm list -n ingress-nginx | grep ingress-nginx
-
-# Если есть, удалить:
-helm uninstall ingress-nginx -n ingress-nginx
-
-# Удалить cluster-wide ресурсы, которые могут конфликтовать
-kubectl delete clusterrole ingress-nginx --ignore-not-found
-kubectl delete clusterrolebinding ingress-nginx --ignore-not-found
-kubectl delete ingressclass nginx --ignore-not-found
-kubectl delete validatingwebhookconfiguration ingress-nginx --ignore-not-found
-kubectl delete validatingwebhookconfiguration ingress-nginx-admission --ignore-not-found
-kubectl delete mutatingwebhookconfiguration ingress-nginx --ignore-not-found
-kubectl delete mutatingwebhookconfiguration ingress-nginx-admission --ignore-not-found
-
-#### 2.3 Установка Ingress
-
+### Установим ingress-nginx
+```bash
 helm install ingress-nginx ingress-nginx/ingress-nginx \
---namespace ingress-nginx \
---set controller.metrics.enabled=true \
---set controller.metrics.serviceMonitor.enabled=true \
---set controller.metrics.serviceMonitor.additionalLabels.release="prometheus" \
---set controller.podAnnotations."prometheus\.io/scrape"="true" \
---set controller.podAnnotations."prometheus\.io/port"="10254"
+  --namespace ingress-nginx \
+  --set controller.metrics.enabled=true \
+  --set controller.metrics.serviceMonitor.enabled=true \
+  --set controller.metrics.serviceMonitor.additionalLabels.release="prometheus" \
+  --set controller.podAnnotations."prometheus\.io/scrape"="true" \
+  --set controller.podAnnotations."prometheus\.io/port"="10254"
+```
 
-#### 2.4 Проброс внешнего порта из minikube
+Если вы используете Minikube, пробросьте туннель, чтобы получить внешний IP для ingress:
+
+```bash
 minikube tunnel
+```
 
-#### 2.5 Запуск Prometheus
+### 3. Prometheus и Grafana
+Для мониторинга нужно развернуть Prometheus и Grafana из чартов, находящихся в директории user/charts.
+
+```bash
+# Установка Prometheus
 helm install prometheus ./user/charts/prometheus -n microservices
+```
 
-#### 2.6 Запуск Grafana
-helm install grafana ./charts/grafana -n microservices
+```bash
+# Установка Grafana
+helm install grafana ./user/charts/grafana -n microservices
+```
 
-### 3. Запуск приложения:
+После установки Grafana будет доступна по адресу http://grafana.arch.homework (если настроен ingress). 
+Логин/пароль по умолчанию: admin / admin (при первом входе потребуется сменить).
 
-#### Сборка образов:
-docker build -t victor2023victorovich/billing-app:latest .
-docker build -t victor2023victorovich/notification-app:latest .
-docker build -t victor2023victorovich/order-app:latest .
-docker build -t victor2023victorovich/user-app:latest .
+### 4. Сборка и публикация Docker‑образов
+Пересоберите образы микросервисов и загрузите их на Docker Hub (или другой registry).
 
-#### Загрузка образов на DockerHub
+```bash
+# Сборка
+docker build -t you_registry/user-app:latest ./user
+docker build -t you_registry/billing-app:latest ./billing
+docker build -t you_registry/notification-app:latest ./notification
+docker build -t you_registry/order-app:latest ./order
+```
+Можно сразу скачать готовые
+```bash
+# Публикация
+docker push victor2023victorovich/user-app:latest
 docker push victor2023victorovich/billing-app:latest
 docker push victor2023victorovich/notification-app:latest
 docker push victor2023victorovich/order-app:latest
-docker push victor2023victorovich/user-app:latest
+```
 
-#### Запуск микросервисов:
-helm install billing ./billing/charts/billing -n microservices
-helm install notification ./notification/charts/notification -n microservices
-helm install order ./order/charts/order -n microservices
+### 5. Установка микросервисов
+Установите каждый сервис с помощью Helm, используя подготовленные чарты.
+Важно: перед установкой убедитесь, что в файлах values.yaml всех сервисов указаны корректные ссылки на образы (ваш registry) и параметры подключения к БД (они уже настроены на использование сервиса postgres-postgresql внутри namespace microservices).
+
+```bash
+# Установка сервиса пользователей
 helm install user ./user/charts/user-app -n microservices
-billing
-#### Обновление микросервисов(при необходимости): 
-helm upgrade --install billing ./billing/charts/billing -n microservices
-helm upgrade --install notification ./notification/charts/notification -n microservices
-helm upgrade --install order ./order/charts/order -n microservices
-helm upgrade --install user ./user/charts/user-app -n microservices
+```
+```bash
+# Установка биллинга
+helm install billing ./billing/charts/billing -n microservices
+```
+```bash
+# Установка уведомлений
+helm install notification ./notification/charts/notification -n microservices
+```
+```bash
+# Установка заказов
+helm install order ./order/charts/order -n microservices
+```
+При необходимости обновления используйте helm upgrade --install ... с теми же параметрами.
 
-### 4. Проверка работы:
-#### Проверить поды:
-kubectl get pod -n microservices -o wide
+## Проверка работоспособности
+После установки проверьте состояние подов и сервисов:
 
-#### Проверить логи:
-kubectl logs -n microservices -l app=user-app
-kubectl logs -n microservices -l app=billing-app
-kubectl logs -n microservices -l app=notification-app
-kubectl logs -n microservices -l app=order-app
-
-#### Проверить сервис:
+```bash
+kubectl get pods -n microservices
+```
+```bash
 kubectl get svc -n microservices
-
-#### Проверить ingress:
-kubectl get all -n ingress-nginx
+```
+```bash
 kubectl get ingress -n microservices
+```
 
-### 5. Запуск Postman коллекции:
-newman run user-app.postman_collection.json
+Все поды должны быть в статусе Running.
+Логи можно посмотреть командой:
 
-### 6. Запуск тестов
+```bash
+kubectl logs -n microservices -l app=user-app
+```
+```bash
+kubectl logs -n microservices -l app=billing-app
+```
+```bash
+kubectl logs -n microservices -l app=notification-app
+```
+```bash
+kubectl logs -n microservices -l app=order-app
+```
 
-#### Установка K6
-choco install k6 -y --force
+Проверьте доступность приложений через ingress.
+Добавьте в файл hosts (или используйте minikube tunnel) следующие домены:
 
-#### Запуск нагрузочных тестов
-k6 run tests/load/k6/scenarios/api/test.js
+arch.homework → user‑service
+
+billing.arch.homework → billing‑service
+
+notify.arch.homework → notification‑service
+
+order.arch.homework → order‑service
+
+Пример проверки через curl:
+
+```bash
+curl http://arch.homework/api/v1/users
+```
+
+## Тестирование
+### Postman‑коллекция
+Для функционального тестирования подготовлена коллекция Postman, покрывающая полный сценарий:
+
+создание пользователя
+
+пополнение счёта
+
+создание заказа с достаточными средствами
+
+проверка баланса и уведомления
+
+создание заказа с недостаточными средствами
+
+повторная проверка баланса и уведомления
+
+Коллекция находится в файле user-billing-order-notification.postman_collection.json.
+Переменная окружения baseUrl по умолчанию указывает на http://arch.homework.
+
+### Результат выполнения тестов
+Запустите коллекцию с помощью Newman:
+
+```bash
+newman run user-billing-order-notification.postman_collection.json
+```
+Ниже представлен скриншот успешного прохождения всех тестов:
+
+![Результаты выполнения тестов](postman-tests.png)
+
+## Заключение
+Все сервисы успешно разворачиваются в Kubernetes, взаимодействуют через HTTP, проходят функциональные тесты

@@ -5,137 +5,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="78427b85-37f9-4861-9abb-54c218350a8e" name="Changes" comment="feat: Добавил картинки">
-      <change afterPath="$PROJECT_DIR$/.idea/dataSources.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/modules/billing.main.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/billing/.gitattributes" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/billing/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/billing/Dockerfile" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/billing/build.gradle" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/billing/charts/billing/Chart.yaml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/billing/charts/billing/templates/_helpers.tpl" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/billing/charts/billing/templates/deployment.yaml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/billing/charts/billing/templates/ingress.yaml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/billing/charts/billing/templates/jwt-secret.yaml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/billing/charts/billing/templates/secret.yaml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/billing/charts/billing/templates/service.yaml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/billing/charts/billing/values.yaml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/billing/gradle/wrapper/gradle-wrapper.jar" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/billing/gradle/wrapper/gradle-wrapper.properties" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/billing/gradlew" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/billing/gradlew.bat" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/billing/settings.gradle" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/billing/src/main/java/ru/otus/billing/BillingApplication.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/billing/src/main/java/ru/otus/billing/config/HistogramConfig.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/billing/src/main/java/ru/otus/billing/config/RestTemplateConfig.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/billing/src/main/java/ru/otus/billing/config/SwaggerConfig.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/billing/src/main/java/ru/otus/billing/config/WebConfig.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/billing/src/main/java/ru/otus/billing/controller/AccountController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/billing/src/main/java/ru/otus/billing/dto/AccountResponse.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/billing/src/main/java/ru/otus/billing/dto/CreateAccountRequest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/billing/src/main/java/ru/otus/billing/dto/DepositRequest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/billing/src/main/java/ru/otus/billing/dto/ErrorResponse.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/billing/src/main/java/ru/otus/billing/dto/WithdrawRequest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/billing/src/main/java/ru/otus/billing/exception/AccountNotFoundException.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/billing/src/main/java/ru/otus/billing/exception/GlobalExceptionHandler.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/billing/src/main/java/ru/otus/billing/exception/InsufficientFundsException.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/billing/src/main/java/ru/otus/billing/model/Account.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/billing/src/main/java/ru/otus/billing/repository/AccountRepository.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/billing/src/main/java/ru/otus/billing/service/AccountService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/billing/src/main/resources/application.yml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/billing/src/main/resources/db/migration/V1__Create_accounts_table.sql" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/billing/src/test/java/ru/otus/billing/BillingApplicationTests.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/notification/.gitattributes" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/notification/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/notification/Dockerfile" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/notification/build.gradle" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/notification/charts/notification/Chart.yaml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/notification/charts/notification/templates/_helpers.tpl" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/notification/charts/notification/templates/deployment.yaml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/notification/charts/notification/templates/ingress.yaml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/notification/charts/notification/templates/jwt-secret.yaml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/notification/charts/notification/templates/secret.yaml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/notification/charts/notification/templates/service.yaml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/notification/charts/notification/values.yaml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/notification/gradle/wrapper/gradle-wrapper.jar" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/notification/gradle/wrapper/gradle-wrapper.properties" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/notification/gradlew" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/notification/gradlew.bat" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/notification/settings.gradle" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/notification/src/main/java/ru/otus/notification/NotificationApplication.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/notification/src/main/java/ru/otus/notification/config/HistogramConfig.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/notification/src/main/java/ru/otus/notification/config/RestTemplateConfig.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/notification/src/main/java/ru/otus/notification/config/SwaggerConfig.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/notification/src/main/java/ru/otus/notification/config/WebConfig.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/notification/src/main/java/ru/otus/notification/controller/NotificationController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/notification/src/main/java/ru/otus/notification/dto/CreateNotificationRequest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/notification/src/main/java/ru/otus/notification/dto/ErrorResponse.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/notification/src/main/java/ru/otus/notification/dto/NotificationResponse.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/notification/src/main/java/ru/otus/notification/exception/AccountNotFoundException.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/notification/src/main/java/ru/otus/notification/exception/GlobalExceptionHandler.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/notification/src/main/java/ru/otus/notification/exception/InsufficientFundsException.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/notification/src/main/java/ru/otus/notification/model/Notification.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/notification/src/main/java/ru/otus/notification/repository/NotificationRepository.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/notification/src/main/java/ru/otus/notification/service/NotificationService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/notification/src/main/resources/application.yml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/notification/src/main/resources/db/migration/V1__Create_notifications_table.sql" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/notification/src/test/java/ru/otus/notification/NotificationApplicationTests.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/order/.gitattributes" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/order/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/order/Dockerfile" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/order/build.gradle" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/order/charts/order/Chart.yaml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/order/charts/order/templates/_helpers.tpl" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/order/charts/order/templates/deployment.yaml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/order/charts/order/templates/ingress.yaml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/order/charts/order/templates/jwt-secret.yaml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/order/charts/order/templates/secret.yaml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/order/charts/order/templates/service.yaml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/order/charts/order/values.yaml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/order/gradle/wrapper/gradle-wrapper.jar" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/order/gradle/wrapper/gradle-wrapper.properties" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/order/gradlew" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/order/gradlew.bat" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/order/settings.gradle" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/order/src/main/java/ru/otus/order/OrderApplication.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/order/src/main/java/ru/otus/order/config/HistogramConfig.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/order/src/main/java/ru/otus/order/config/RestTemplateConfig.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/order/src/main/java/ru/otus/order/config/SwaggerConfig.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/order/src/main/java/ru/otus/order/config/WebConfig.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/order/src/main/java/ru/otus/order/controller/OrderController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/order/src/main/java/ru/otus/order/dto/CreateOrderRequest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/order/src/main/java/ru/otus/order/dto/ErrorResponse.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/order/src/main/java/ru/otus/order/dto/NotificationRequest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/order/src/main/java/ru/otus/order/dto/OrderResponse.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/order/src/main/java/ru/otus/order/dto/WithdrawRequest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/order/src/main/java/ru/otus/order/exception/AccountNotFoundException.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/order/src/main/java/ru/otus/order/exception/GlobalExceptionHandler.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/order/src/main/java/ru/otus/order/exception/InsufficientFundsException.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/order/src/main/java/ru/otus/order/model/Order.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/order/src/main/java/ru/otus/order/repository/OrderRepository.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/order/src/main/java/ru/otus/order/service/OrderService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/order/src/main/java/ru/otus/order/service/client/BillingServiceClient.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/order/src/main/java/ru/otus/order/service/client/NotificationServiceClient.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/order/src/main/resources/application.yml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/order/src/main/resources/db/migration/V1__Create_orders_table.sql" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/order/src/test/java/ru/otus/order/OrderApplicationTests.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/user-billing-order-notification.postman_collection.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/user/src/main/java/ru/otus/user/config/RestTemplateConfig.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/user/src/main/java/ru/otus/user/service/client/BillingServiceClient.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Диаграмма последовательности.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/gradle.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/gradle.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/postman-tests.png" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/user/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/user/charts/prometheus/templates/configmap.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/user/charts/prometheus/templates/configmap.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/user/charts/user-app/templates/deployment.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/user/charts/user-app/templates/deployment.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/user/charts/user-app/templates/ingress.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/user/charts/user-app/templates/ingress.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/user/charts/user-app/values.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/user/charts/user-app/values.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/user/gradle/wrapper/gradle-wrapper.properties" beforeDir="false" afterPath="$PROJECT_DIR$/user/gradle/wrapper/gradle-wrapper.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/user/src/main/java/ru/otus/user/service/AuthService.java" beforeDir="false" afterPath="$PROJECT_DIR$/user/src/main/java/ru/otus/user/service/AuthService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/user/src/main/java/ru/otus/user/service/UserServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/user/src/main/java/ru/otus/user/service/UserServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/user/src/main/resources/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/user/src/main/resources/application.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/user-billing-order-notification.postman_collection.json" beforeDir="false" afterPath="$PROJECT_DIR$/user-billing-order-notification.postman_collection.json" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -270,7 +143,7 @@
     &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
     &quot;jdk.selected.JAVA_MODULE&quot;: &quot;openjdk-21&quot;,
     &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/Zver/IdeaProjects/OTUS_Homework_Microservices/billing&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/Zver/IdeaProjects/OTUS_Homework_Microservices&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
@@ -287,11 +160,11 @@
 }</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\Zver\IdeaProjects\OTUS_Homework_Microservices" />
       <recent name="C:\Users\Zver\IdeaProjects\OTUS_Homework_Microservices\billing" />
       <recent name="C:\Users\Zver\IdeaProjects\OTUS_Homework_Microservices\notification" />
       <recent name="C:\Users\Zver\IdeaProjects\OTUS_Homework_Microservices\order" />
       <recent name="C:\Users\Zver\IdeaProjects\OTUS_Homework_Microservices\order\src\main\java\ru\otus\order" />
-      <recent name="C:\Users\Zver\IdeaProjects\OTUS_Homework_Microservices\notification\src\main\java\ru\otus\notification" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\Users\Zver\IdeaProjects\OTUS_Homework_Microservices" />

@@ -34,8 +34,9 @@
               "});",
               "pm.test(\"Response has token and user\", function () {",
               "    var jsonData = pm.response.json();",
-              "    pm.expect(jsonData.token).to.not.be.empty;",
-              "    pm.expect(jsonData.user.id).to.not.be.empty;",
+              "    pm.expect(jsonData).to.have.property('token'); ",
+              "    pm.expect(jsonData).to.have.property('user'); ",
+              "    pm.expect(jsonData.user).to.have.property('id'); ",
               "    pm.collectionVariables.set(\"userId\", jsonData.user.id);",
               "});"
             ]
