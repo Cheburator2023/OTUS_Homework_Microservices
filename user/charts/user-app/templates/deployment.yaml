@@ -47,3 +47,5 @@ spec:
                 secretKeyRef:
                   name: {{ .Chart.Name }}-jwt-secret
                   key: jwt-secret
+            - name: SERVICES_BILLING_URL
+              value: {{ .Values.services.billing.url | quote }}

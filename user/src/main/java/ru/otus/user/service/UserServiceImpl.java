@@ -13,6 +13,7 @@ import ru.otus.user.exception.UserNotFoundException;
 import ru.otus.user.mapper.UserMapper;
 import ru.otus.user.model.User;
 import ru.otus.user.repository.UserRepository;
+import ru.otus.user.service.client.BillingServiceClient;
 
 import java.util.List;
 
@@ -23,6 +24,7 @@ public class UserServiceImpl implements UserService {
     private final UserMapper userMapper;
     private final PasswordEncoder passwordEncoder;
     private final MetricService metricService;
+    private final BillingServiceClient billingServiceClient;
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
@@ -41,11 +43,13 @@ public class UserServiceImpl implements UserService {
                 throw new EmailAlreadyExistsException("Email already exists");
             }
 
-            // Генерируем случайный пароль для пользователя, созданного администратором
             String randomPassword = generateRandomPassword();
             User user = new User(userRequest.name(), userRequest.email(),
                     passwordEncoder.encode(randomPassword));
             User savedUser = userRepository.save(user);
+
+            billingServiceClient.createAccount(savedUser.getId(), savedUser.getEmail());
+
             return userMapper.toResponse(savedUser);
         } catch (Exception e) {
             metricService.buildErrorCounter("createUser", "500").increment();

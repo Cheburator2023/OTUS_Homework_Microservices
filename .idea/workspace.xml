@@ -4,8 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="78427b85-37f9-4861-9abb-54c218350a8e" name="Changes" comment="feat: Добавил тесты">
+    <list default="true" id="78427b85-37f9-4861-9abb-54c218350a8e" name="Changes" comment="feat: Добавил картинки">
+      <change afterPath="$PROJECT_DIR$/postman-tests.png" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/user-billing-order-notification.postman_collection.json" beforeDir="false" afterPath="$PROJECT_DIR$/user-billing-order-notification.postman_collection.json" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -13,6 +16,15 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="ExternalProjectsData">
+    <projectState path="$PROJECT_DIR$/billing">
+      <ProjectState />
+    </projectState>
+    <projectState path="$PROJECT_DIR$/notification">
+      <ProjectState />
+    </projectState>
+    <projectState path="$PROJECT_DIR$/order">
+      <ProjectState />
+    </projectState>
     <projectState path="$PROJECT_DIR$/user">
       <ProjectState />
     </projectState>
@@ -23,9 +35,27 @@
         <task path="$PROJECT_DIR$/user">
           <activation />
         </task>
+        <task path="$PROJECT_DIR$/billing">
+          <activation />
+        </task>
         <projects_view>
           <tree_state>
             <expand>
+              <path>
+                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
+                <item name="billing" type="f1a62948:ProjectNode" />
+              </path>
+              <path>
+                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
+                <item name="billing" type="f1a62948:ProjectNode" />
+                <item name="Tasks" type="e4a08cd1:TasksNode" />
+              </path>
+              <path>
+                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
+                <item name="billing" type="f1a62948:ProjectNode" />
+                <item name="Tasks" type="e4a08cd1:TasksNode" />
+                <item name="build" type="c8890929:TasksNode$1" />
+              </path>
               <path>
                 <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
                 <item name="user" type="f1a62948:ProjectNode" />
@@ -83,7 +113,7 @@
   &quot;isMigrated&quot;: true
 }</component>
   <component name="ProblemsViewState">
-    <option name="selectedTabId" value="DEPENDENCY_CHECKER_PROBLEMS_TAB" />
+    <option name="selectedTabId" value="CurrentFile" />
   </component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 6
@@ -98,6 +128,8 @@
   &quot;keyToString&quot;: {
     &quot;Docker.user/Dockerfile.executor&quot;: &quot;Run&quot;,
     &quot;Gradle.Build user.executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.billing [build].executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.billing [clean].executor&quot;: &quot;Run&quot;,
     &quot;Gradle.user [build].executor&quot;: &quot;Run&quot;,
     &quot;Gradle.user [clean].executor&quot;: &quot;Run&quot;,
     &quot;RequestMappingsPanelOrder0&quot;: &quot;0&quot;,
@@ -105,17 +137,19 @@
     &quot;RequestMappingsPanelWidth0&quot;: &quot;75&quot;,
     &quot;RequestMappingsPanelWidth1&quot;: &quot;75&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
     &quot;Spring Boot.UserApplication.executor&quot;: &quot;Run&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;add__security__service__2__0&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;feature/add__order__service&quot;,
     &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
     &quot;jdk.selected.JAVA_MODULE&quot;: &quot;openjdk-21&quot;,
     &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/Zver/IdeaProjects/OTUS_Homework_Microservices&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
     &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
     &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;project.propVCSSupport.DirectoryMappings&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;,
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   },
   &quot;keyToStringList&quot;: {
@@ -125,11 +159,68 @@
   }
 }</component>
   <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\Zver\IdeaProjects\OTUS_Homework_Microservices" />
+      <recent name="C:\Users\Zver\IdeaProjects\OTUS_Homework_Microservices\billing" />
+      <recent name="C:\Users\Zver\IdeaProjects\OTUS_Homework_Microservices\notification" />
+      <recent name="C:\Users\Zver\IdeaProjects\OTUS_Homework_Microservices\order" />
+      <recent name="C:\Users\Zver\IdeaProjects\OTUS_Homework_Microservices\order\src\main\java\ru\otus\order" />
+    </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\Zver\IdeaProjects\OTUS_Homework_Microservices" />
+      <recent name="C:\Users\Zver\IdeaProjects\OTUS_Homework_Microservices\notification\src\main\java\ru\otus\notification\model" />
       <recent name="C:\Users\Zver\IdeaProjects\OTUS_Homework_Microservices\user" />
     </key>
+    <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="ru.otus.order.dto" />
+      <recent name="ru.otus.notification.dto" />
+    </key>
   </component>
-  <component name="RunManager" selected="Gradle.user [build]">
+  <component name="RunManager" selected="Gradle.billing [build]">
+    <configuration name="billing [build]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$/billing" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list>
+            <option value="build" />
+          </list>
+        </option>
+        <option name="vmOptions" />
+      </ExternalSystemSettings>
+      <ExternalSystemDebugServerProcess>true</ExternalSystemDebugServerProcess>
+      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
+      <DebugAllEnabled>false</DebugAllEnabled>
+      <RunAsTest>false</RunAsTest>
+      <method v="2" />
+    </configuration>
+    <configuration name="billing [clean]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$/billing" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list>
+            <option value="clean" />
+          </list>
+        </option>
+        <option name="vmOptions" />
+      </ExternalSystemSettings>
+      <ExternalSystemDebugServerProcess>true</ExternalSystemDebugServerProcess>
+      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
+      <DebugAllEnabled>false</DebugAllEnabled>
+      <RunAsTest>false</RunAsTest>
+      <method v="2" />
+    </configuration>
     <configuration name="user [build]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
@@ -174,6 +265,27 @@
       <RunAsTest>false</RunAsTest>
       <method v="2" />
     </configuration>
+    <configuration name="BillingApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
+      <module name="billing.main" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="ru.otus.billing.BillingApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="NotificationApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
+      <module name="notification.main" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="ru.otus.notification.NotificationApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="OrderApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
+      <module name="order.main" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="ru.otus.order.OrderApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="UserApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
       <module name="user.main" />
       <option name="SPRING_BOOT_MAIN_CLASS" value="ru.otus.user.UserApplication" />
@@ -198,11 +310,11 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Docker.user/Dockerfile" />
+        <item itemvalue="Gradle.billing [build]" />
+        <item itemvalue="Gradle.billing [clean]" />
+        <item itemvalue="Gradle.user [clean]" />
         <item itemvalue="Gradle.user [build]" />
-        <item itemvalue="Gradle.user [clean]" />
         <item itemvalue="Docker.user/Dockerfile" />
-        <item itemvalue="Gradle.user [clean]" />
       </list>
     </recent_temporary>
   </component>
@@ -226,6 +338,9 @@
       <workItem from="1751274172922" duration="41580000" />
       <workItem from="1752137238540" duration="3533000" />
       <workItem from="1753202374232" duration="19887000" />
+      <workItem from="1773263936124" duration="3265000" />
+      <workItem from="1773272346802" duration="26829000" />
+      <workItem from="1773594038745" duration="7966000" />
     </task>
     <task id="LOCAL-00001" summary="Создал RESTful CRUD-приложение">
       <option name="closed" value="true" />
@@ -251,7 +366,15 @@
       <option name="project" value="LOCAL" />
       <updated>1773012418651</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="feat: Добавил картинки">
+      <option name="closed" value="true" />
+      <created>1773013116681</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1773013116681</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -295,6 +418,7 @@
     <MESSAGE value="Создал RESTful CRUD-приложение" />
     <MESSAGE value="Добавил Helm-charts" />
     <MESSAGE value="feat: Добавил тесты" />
-    <option name="LAST_COMMIT_MESSAGE" value="feat: Добавил тесты" />
+    <MESSAGE value="feat: Добавил картинки" />
+    <option name="LAST_COMMIT_MESSAGE" value="feat: Добавил картинки" />
   </component>
 </project>

@@ -1,0 +1,295 @@
+{
+  "info": {
+    "name": "User Billing Order Notification Scenario",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "1. Create User",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"name\": \"Test User\",\n    \"email\": \"testuser@example.com\",\n    \"password\": \"password123\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{baseUrl}}/api/v1/auth/register",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "v1", "auth", "register"]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 201\", function () {",
+              "    pm.response.to.have.status(201);",
+              "});",
+              "pm.test(\"Response has token and user\", function () {",
+              "    var jsonData = pm.response.json();",
+              "    pm.expect(jsonData).to.have.property('token'); ",
+              "    pm.expect(jsonData).to.have.property('user'); ",
+              "    pm.expect(jsonData.user).to.have.property('id'); ",
+              "    pm.collectionVariables.set(\"userId\", jsonData.user.id);",
+              "});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "2. Deposit Money",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"amount\": 100.00\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://billing.arch.homework/api/v1/accounts/{{userId}}/deposit",
+          "host": ["billing", "arch", "homework"],
+          "path": ["api", "v1", "accounts", "{{userId}}", "deposit"]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "pm.test(\"Balance increased\", function () {",
+              "    var jsonData = pm.response.json();",
+              "    pm.expect(jsonData.balance).to.equal(100.00);",
+              "});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "3. Create Order (sufficient funds)",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"userId\": {{userId}},\n    \"email\": \"testuser@example.com\",\n    \"amount\": 50.00\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://order.arch.homework/api/v1/orders",
+          "host": ["order", "arch", "homework"],
+          "path": ["api", "v1", "orders"]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 201\", function () {",
+              "    pm.response.to.have.status(201);",
+              "});",
+              "pm.test(\"Order status is SUCCESS\", function () {",
+              "    var jsonData = pm.response.json();",
+              "    pm.expect(jsonData.status).to.equal(\"SUCCESS\");",
+              "});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "4. Check Balance after successful order",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://billing.arch.homework/api/v1/accounts/{{userId}}",
+          "host": ["billing", "arch", "homework"],
+          "path": ["api", "v1", "accounts", "{{userId}}"]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "pm.test(\"Balance is 50 (100 - 50)\", function () {",
+              "    var jsonData = pm.response.json();",
+              "    pm.expect(jsonData.balance).to.equal(50.00);",
+              "});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "5. Check Notifications for user (success)",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://notify.arch.homework/api/v1/notifications?userId={{userId}}",
+          "host": ["notify", "arch", "homework"],
+          "path": ["api", "v1", "notifications"],
+          "query": [
+            {
+              "key": "userId",
+              "value": "{{userId}}"
+            }
+          ]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "pm.test(\"At least one notification exists\", function () {",
+              "    var jsonData = pm.response.json();",
+              "    pm.expect(jsonData.length).to.be.at.least(1);",
+              "    var last = jsonData[0];",
+              "    pm.expect(last.message).to.include(\"successfully processed\");",
+              "});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "6. Create Order (insufficient funds)",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"userId\": {{userId}},\n    \"email\": \"testuser@example.com\",\n    \"amount\": 100.00\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://order.arch.homework/api/v1/orders",
+          "host": ["order", "arch", "homework"],
+          "path": ["api", "v1", "orders"]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 201 (order created even if failed)\", function () {",
+              "    pm.response.to.have.status(201);",
+              "});",
+              "pm.test(\"Order status is FAILED\", function () {",
+              "    var jsonData = pm.response.json();",
+              "    pm.expect(jsonData.status).to.equal(\"FAILED\");",
+              "});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "7. Check Balance unchanged",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://billing.arch.homework/api/v1/accounts/{{userId}}",
+          "host": ["billing", "arch", "homework"],
+          "path": ["api", "v1", "accounts", "{{userId}}"]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "pm.test(\"Balance still 50\", function () {",
+              "    var jsonData = pm.response.json();",
+              "    pm.expect(jsonData.balance).to.equal(50.00);",
+              "});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "8. Check Notifications for user (failure)",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://notify.arch.homework/api/v1/notifications?userId={{userId}}",
+          "host": ["notify", "arch", "homework"],
+          "path": ["api", "v1", "notifications"],
+          "query": [
+            {
+              "key": "userId",
+              "value": "{{userId}}"
+            }
+          ]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "pm.test(\"New notification with failure message\", function () {",
+              "    var jsonData = pm.response.json();",
+              "    var failedNotifications = jsonData.filter(n => n.message.includes(\"Failed\"));",
+              "    pm.expect(failedNotifications.length).to.be.at.least(1);",
+              "});"
+            ]
+          }
+        }
+      ]
+    }
+  ],
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://arch.homework"
+    },{
+      "key": "userId",
+      "value": "1"
+    }
+  ]
+}
