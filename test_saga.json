@@ -1,0 +1,138 @@
+{
+  "info": {
+    "name": "Order Saga Tests",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "arch.homework"
+    }
+  ],
+  "item": [
+    {
+      "name": "Create Order - Success",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"userId\": 1,\n    \"email\": \"test@example.com\",\n    \"amount\": 100.00,\n    \"productId\": 1,\n    \"quantity\": 2,\n    \"deliveryTime\": \"2025-04-03 10:00:00\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{baseUrl}}/api/v1/orders",
+          "host": ["order","{{baseUrl}}"],
+          "path": ["api", "v1", "orders"]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 201\", () => pm.response.to.have.status(201));",
+              "pm.test(\"Order ID is present\", () => pm.expect(pm.response.json().id).to.exist);",
+              "pm.test(\"Order status is SUCCESS\", () => pm.expect(pm.response.json().status).to.equal(\"SUCCESS\"));",
+              "pm.test(\"Amount matches\", () => pm.expect(pm.response.json().amount).to.equal(100.00));",
+              "pm.collectionVariables.set(\"orderId\", pm.response.json().id);"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Create Order - Insufficient Funds",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"userId\": 1,\n    \"email\": \"test@example.com\",\n    \"amount\": 1000.00,\n    \"productId\": 1,\n    \"quantity\": 1,\n    \"deliveryTime\": \"2025-04-01 12:00:00\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{baseUrl}}/api/v1/orders",
+          "host": ["order","{{baseUrl}}"],
+          "path": ["api", "v1", "orders"]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 201\", () => pm.response.to.have.status(201));",
+              "pm.test(\"Order status is FAILED\", () => pm.expect(pm.response.json().status).to.equal(\"FAILED\"));"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Create Order - Product Not Found",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"userId\": 1,\n    \"email\": \"test@example.com\",\n    \"amount\": 50.00,\n    \"productId\": 999,\n    \"quantity\": 1,\n    \"deliveryTime\": \"2025-04-01 14:00:00\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{baseUrl}}/api/v1/orders",
+          "host": ["order","{{baseUrl}}"],
+          "path": ["api", "v1", "orders"]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 201\", () => pm.response.to.have.status(201));",
+              "pm.test(\"Order status is FAILED\", () => pm.expect(pm.response.json().status).to.equal(\"FAILED\"));"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Get Account Balance",
+      "request": {
+        "method": "GET",
+        "url": {
+          "raw": "{{baseUrl}}/api/v1/accounts/1",
+          "host": ["billing","{{baseUrl}}"],
+          "path": ["api", "v1", "accounts", "1"]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 200\", () => pm.response.to.have.status(200));"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ]
+    }
+  ]
+}

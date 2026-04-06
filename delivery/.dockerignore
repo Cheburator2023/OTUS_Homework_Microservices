@@ -1,0 +1,7 @@
+**/stock/
+**/billing/
+**/notification/
+**/order/
+**/user/
+*.md
+.git

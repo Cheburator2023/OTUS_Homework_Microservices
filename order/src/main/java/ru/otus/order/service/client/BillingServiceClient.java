@@ -6,7 +6,10 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
+import ru.otus.order.dto.BillingDepositRequest;
 import ru.otus.order.dto.WithdrawRequest;
+
+import java.math.BigDecimal;
 
 @Slf4j
 @Component
@@ -27,6 +30,17 @@ public class BillingServiceClient {
         } catch (Exception e) {
             log.error("Withdraw failed for user {}: {}", userId, e.getMessage());
             return false;
+        }
+    }
+
+    public void deposit(Long userId, BigDecimal amount) {
+        String url = billingServiceUrl + "/api/v1/accounts/" + userId + "/deposit";
+        BillingDepositRequest request = new BillingDepositRequest(amount);
+        try {
+            restTemplate.postForEntity(url, request, Void.class);
+        } catch (Exception e) {
+            log.error("Deposit failed for user {}: {}", userId, e.getMessage());
+            throw e;
         }
     }
 }

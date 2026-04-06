@@ -5,10 +5,109 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="78427b85-37f9-4861-9abb-54c218350a8e" name="Changes" comment="feat: Добавил картинки">
-      <change afterPath="$PROJECT_DIR$/postman-tests.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/delivery/.dockerignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/delivery/.gitattributes" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/delivery/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/delivery/Dockerfile" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/delivery/build.gradle" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/delivery/charts/delivery/Chart.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/delivery/charts/delivery/templates/_helpers.tpl" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/delivery/charts/delivery/templates/deployment.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/delivery/charts/delivery/templates/ingress.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/delivery/charts/delivery/templates/jwt-secret.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/delivery/charts/delivery/templates/secret.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/delivery/charts/delivery/templates/service.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/delivery/charts/delivery/values.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/delivery/gradle/wrapper/gradle-wrapper.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/delivery/gradle/wrapper/gradle-wrapper.properties" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/delivery/gradlew" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/delivery/gradlew.bat" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/delivery/settings.gradle" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/delivery/src/main/java/ru/otus/delivery/DeliveryApplication.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/delivery/src/main/java/ru/otus/delivery/config/EndpointDebugListener.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/delivery/src/main/java/ru/otus/delivery/config/HistogramConfig.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/delivery/src/main/java/ru/otus/delivery/config/RestTemplateConfig.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/delivery/src/main/java/ru/otus/delivery/config/SwaggerConfig.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/delivery/src/main/java/ru/otus/delivery/config/WebConfig.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/delivery/src/main/java/ru/otus/delivery/controller/DeliveryController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/delivery/src/main/java/ru/otus/delivery/dto/DeliveryResponse.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/delivery/src/main/java/ru/otus/delivery/dto/ErrorResponse.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/delivery/src/main/java/ru/otus/delivery/dto/ReleaseDeliveryRequest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/delivery/src/main/java/ru/otus/delivery/dto/ReserveDeliveryRequest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/delivery/src/main/java/ru/otus/delivery/exception/DeliverySlotNotAvailableException.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/delivery/src/main/java/ru/otus/delivery/exception/DeliverySlotNotFoundException.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/delivery/src/main/java/ru/otus/delivery/exception/GlobalExceptionHandler.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/delivery/src/main/java/ru/otus/delivery/filter/LoggingFilter.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/delivery/src/main/java/ru/otus/delivery/model/DeliverySlot.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/delivery/src/main/java/ru/otus/delivery/repository/DeliverySlotRepository.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/delivery/src/main/java/ru/otus/delivery/service/DeliveryService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/delivery/src/main/resources/application.yml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/delivery/src/main/resources/db/migration/V1__Create_delivery_slots.sql" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/order/src/main/java/ru/otus/order/dto/BillingDepositRequest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/order/src/main/java/ru/otus/order/dto/ReleaseDeliveryRequest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/order/src/main/java/ru/otus/order/dto/ReleaseStockRequest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/order/src/main/java/ru/otus/order/dto/ReserveDeliveryRequest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/order/src/main/java/ru/otus/order/dto/ReserveStockRequest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/order/src/main/java/ru/otus/order/service/client/DeliveryServiceClient.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/order/src/main/java/ru/otus/order/service/client/StockServiceClient.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/order/src/main/resources/db/migration/V2__Add_order_details.sql" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/stock/.gitattributes" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/stock/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/stock/Dockerfile" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/stock/build.gradle" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/stock/charts/stock/Chart.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/stock/charts/stock/templates/_helpers.tpl" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/stock/charts/stock/templates/deployment.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/stock/charts/stock/templates/ingress.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/stock/charts/stock/templates/jwt-secret.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/stock/charts/stock/templates/secret.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/stock/charts/stock/templates/service.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/stock/charts/stock/values.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/stock/gradle/wrapper/gradle-wrapper.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/stock/gradle/wrapper/gradle-wrapper.properties" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/stock/gradlew" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/stock/gradlew.bat" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/stock/settings.gradle" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/stock/src/main/java/ru/otus/stock/StockApplication.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/stock/src/main/java/ru/otus/stock/config/HistogramConfig.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/stock/src/main/java/ru/otus/stock/config/RestTemplateConfig.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/stock/src/main/java/ru/otus/stock/config/SwaggerConfig.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/stock/src/main/java/ru/otus/stock/config/WebConfig.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/stock/src/main/java/ru/otus/stock/controller/StockController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/stock/src/main/java/ru/otus/stock/dto/ErrorResponse.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/stock/src/main/java/ru/otus/stock/dto/ReleaseRequest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/stock/src/main/java/ru/otus/stock/dto/ReserveRequest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/stock/src/main/java/ru/otus/stock/dto/StockResponse.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/stock/src/main/java/ru/otus/stock/exception/GlobalExceptionHandler.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/stock/src/main/java/ru/otus/stock/exception/InsufficientStockException.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/stock/src/main/java/ru/otus/stock/exception/ProductNotFoundException.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/stock/src/main/java/ru/otus/stock/model/StockItem.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/stock/src/main/java/ru/otus/stock/repository/StockItemRepository.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/stock/src/main/java/ru/otus/stock/service/StockService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/stock/src/main/resources/application.yml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/stock/src/main/resources/db/migration/V1__Create_stock_table.sql" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/stock/src/test/java/ru/otus/stock/StockApplicationTests.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/test_saga.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/gradle.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/gradle.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/user-billing-order-notification.postman_collection.json" beforeDir="false" afterPath="$PROJECT_DIR$/user-billing-order-notification.postman_collection.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/billing/Dockerfile" beforeDir="false" afterPath="$PROJECT_DIR$/billing/Dockerfile" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/billing/src/main/resources/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/billing/src/main/resources/application.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/notification/Dockerfile" beforeDir="false" afterPath="$PROJECT_DIR$/notification/Dockerfile" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/notification/src/main/resources/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/notification/src/main/resources/application.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/order/Dockerfile" beforeDir="false" afterPath="$PROJECT_DIR$/order/Dockerfile" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/order/charts/order/templates/deployment.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/order/charts/order/templates/deployment.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/order/charts/order/values.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/order/charts/order/values.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/order/src/main/java/ru/otus/order/dto/CreateOrderRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/order/src/main/java/ru/otus/order/dto/CreateOrderRequest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/order/src/main/java/ru/otus/order/model/Order.java" beforeDir="false" afterPath="$PROJECT_DIR$/order/src/main/java/ru/otus/order/model/Order.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/order/src/main/java/ru/otus/order/service/OrderService.java" beforeDir="false" afterPath="$PROJECT_DIR$/order/src/main/java/ru/otus/order/service/OrderService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/order/src/main/java/ru/otus/order/service/client/BillingServiceClient.java" beforeDir="false" afterPath="$PROJECT_DIR$/order/src/main/java/ru/otus/order/service/client/BillingServiceClient.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/order/src/main/resources/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/order/src/main/resources/application.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/user/Dockerfile" beforeDir="false" afterPath="$PROJECT_DIR$/user/Dockerfile" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/user/charts/prometheus/templates/configmap.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/user/charts/prometheus/templates/configmap.yaml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -17,6 +116,9 @@
   </component>
   <component name="ExternalProjectsData">
     <projectState path="$PROJECT_DIR$/billing">
+      <ProjectState />
+    </projectState>
+    <projectState path="$PROJECT_DIR$/delivery">
       <ProjectState />
     </projectState>
     <projectState path="$PROJECT_DIR$/notification">
@@ -38,21 +140,24 @@
         <task path="$PROJECT_DIR$/billing">
           <activation />
         </task>
+        <task path="$PROJECT_DIR$/delivery">
+          <activation />
+        </task>
         <projects_view>
           <tree_state>
             <expand>
               <path>
                 <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
-                <item name="billing" type="f1a62948:ProjectNode" />
+                <item name="delivery" type="f1a62948:ProjectNode" />
               </path>
               <path>
                 <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
-                <item name="billing" type="f1a62948:ProjectNode" />
+                <item name="delivery" type="f1a62948:ProjectNode" />
                 <item name="Tasks" type="e4a08cd1:TasksNode" />
               </path>
               <path>
                 <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
-                <item name="billing" type="f1a62948:ProjectNode" />
+                <item name="delivery" type="f1a62948:ProjectNode" />
                 <item name="Tasks" type="e4a08cd1:TasksNode" />
                 <item name="build" type="c8890929:TasksNode$1" />
               </path>
@@ -124,47 +229,49 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;Docker.user/Dockerfile.executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.Build user.executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.billing [build].executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.billing [clean].executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.user [build].executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.user [clean].executor&quot;: &quot;Run&quot;,
-    &quot;RequestMappingsPanelOrder0&quot;: &quot;0&quot;,
-    &quot;RequestMappingsPanelOrder1&quot;: &quot;1&quot;,
-    &quot;RequestMappingsPanelWidth0&quot;: &quot;75&quot;,
-    &quot;RequestMappingsPanelWidth1&quot;: &quot;75&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
-    &quot;Spring Boot.UserApplication.executor&quot;: &quot;Run&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;feature/add__order__service&quot;,
-    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
-    &quot;jdk.selected.JAVA_MODULE&quot;: &quot;openjdk-21&quot;,
-    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/Zver/IdeaProjects/OTUS_Homework_Microservices&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Docker.user/Dockerfile.executor": "Run",
+    "Gradle.Build user.executor": "Run",
+    "Gradle.billing [build].executor": "Run",
+    "Gradle.billing [clean].executor": "Run",
+    "Gradle.delivery [clean].executor": "Run",
+    "Gradle.user [build].executor": "Run",
+    "Gradle.user [clean].executor": "Run",
+    "RequestMappingsPanelOrder0": "0",
+    "RequestMappingsPanelOrder1": "1",
+    "RequestMappingsPanelWidth0": "75",
+    "RequestMappingsPanelWidth1": "75",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "Spring Boot.DeliveryApplication.executor": "Run",
+    "Spring Boot.UserApplication.executor": "Run",
+    "git-widget-placeholder": "feature/add__stock__service",
+    "ignore.virus.scanning.warn.message": "true",
+    "jdk.selected.JAVA_MODULE": "openjdk-21",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "C:/Users/Zver/IdeaProjects/OTUS_Homework_Microservices/delivery",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "settings.editor.selected.configurable": "preferences.pluginManager",
+    "vue.rearranger.settings.migration": "true"
   },
-  &quot;keyToStringList&quot;: {
-    &quot;DatabaseDriversLRU&quot;: [
-      &quot;postgresql&quot;
+  "keyToStringList": {
+    "DatabaseDriversLRU": [
+      "postgresql"
     ]
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\Zver\IdeaProjects\OTUS_Homework_Microservices\delivery" />
+      <recent name="C:\Users\Zver\IdeaProjects\OTUS_Homework_Microservices\delivery\src\main\java\ru\otus\delivery" />
       <recent name="C:\Users\Zver\IdeaProjects\OTUS_Homework_Microservices" />
       <recent name="C:\Users\Zver\IdeaProjects\OTUS_Homework_Microservices\billing" />
       <recent name="C:\Users\Zver\IdeaProjects\OTUS_Homework_Microservices\notification" />
-      <recent name="C:\Users\Zver\IdeaProjects\OTUS_Homework_Microservices\order" />
-      <recent name="C:\Users\Zver\IdeaProjects\OTUS_Homework_Microservices\order\src\main\java\ru\otus\order" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\Users\Zver\IdeaProjects\OTUS_Homework_Microservices" />
@@ -176,33 +283,11 @@
       <recent name="ru.otus.notification.dto" />
     </key>
   </component>
-  <component name="RunManager" selected="Gradle.billing [build]">
-    <configuration name="billing [build]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+  <component name="RunManager" selected="Gradle.delivery [clean]">
+    <configuration name="delivery [clean]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
-        <option name="externalProjectPath" value="$PROJECT_DIR$/billing" />
-        <option name="externalSystemIdString" value="GRADLE" />
-        <option name="scriptParameters" />
-        <option name="taskDescriptions">
-          <list />
-        </option>
-        <option name="taskNames">
-          <list>
-            <option value="build" />
-          </list>
-        </option>
-        <option name="vmOptions" />
-      </ExternalSystemSettings>
-      <ExternalSystemDebugServerProcess>true</ExternalSystemDebugServerProcess>
-      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
-      <DebugAllEnabled>false</DebugAllEnabled>
-      <RunAsTest>false</RunAsTest>
-      <method v="2" />
-    </configuration>
-    <configuration name="billing [clean]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
-      <ExternalSystemSettings>
-        <option name="executionName" />
-        <option name="externalProjectPath" value="$PROJECT_DIR$/billing" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$/delivery" />
         <option name="externalSystemIdString" value="GRADLE" />
         <option name="scriptParameters" />
         <option name="taskDescriptions">
@@ -272,6 +357,19 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration name="DeliveryApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" temporary="true" nameIsGenerated="true">
+      <module name="delivery.main" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="ru.otus.delivery.DeliveryApplication" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="ru.otus.delivery.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="NotificationApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
       <module name="notification.main" />
       <option name="SPRING_BOOT_MAIN_CLASS" value="ru.otus.notification.NotificationApplication" />
@@ -310,8 +408,8 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Gradle.billing [build]" />
-        <item itemvalue="Gradle.billing [clean]" />
+        <item itemvalue="Gradle.delivery [clean]" />
+        <item itemvalue="Spring Boot.DeliveryApplication" />
         <item itemvalue="Gradle.user [clean]" />
         <item itemvalue="Gradle.user [build]" />
         <item itemvalue="Docker.user/Dockerfile" />
@@ -341,6 +439,9 @@
       <workItem from="1773263936124" duration="3265000" />
       <workItem from="1773272346802" duration="26829000" />
       <workItem from="1773594038745" duration="7966000" />
+      <workItem from="1773820190680" duration="13093000" />
+      <workItem from="1774512481905" duration="46517000" />
+      <workItem from="1775075152316" duration="56191000" />
     </task>
     <task id="LOCAL-00001" summary="Создал RESTful CRUD-приложение">
       <option name="closed" value="true" />
@@ -402,7 +503,7 @@
                   <entry key="branch">
                     <value>
                       <list>
-                        <option value="add_security_service_2_0" />
+                        <option value="main" />
                       </list>
                     </value>
                   </entry>

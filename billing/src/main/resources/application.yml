@@ -13,6 +13,8 @@ spring:
   flyway:
     enabled: true
     locations: classpath:db/migration
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
 
 server:
   port: 8001
@@ -30,3 +32,10 @@ management:
         http.server.requests: true
       percentiles:
         http.server.requests: 0.5,0.95,0.99
+
+logging:
+  level:
+    org.springdoc: DEBUG
+    org.springframework.web: DEBUG
+    ru.otus.billing: DEBUG
+    org.springframework.security: DEBUG

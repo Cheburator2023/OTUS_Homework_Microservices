@@ -2,18 +2,17 @@ package ru.otus.order.service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import ru.otus.order.dto.CreateOrderRequest;
-import ru.otus.order.dto.NotificationRequest;
-import ru.otus.order.dto.OrderResponse;
+import ru.otus.order.dto.*;
 import ru.otus.order.model.Order;
 import ru.otus.order.model.Order.OrderStatus;
 import ru.otus.order.repository.OrderRepository;
 import ru.otus.order.service.client.BillingServiceClient;
+import ru.otus.order.service.client.DeliveryServiceClient;
 import ru.otus.order.service.client.NotificationServiceClient;
-
-import java.math.BigDecimal;
+import ru.otus.order.service.client.StockServiceClient;
 
 @Slf4j
 @Service
@@ -23,38 +22,130 @@ public class OrderService {
     private final OrderRepository orderRepository;
     private final BillingServiceClient billingClient;
     private final NotificationServiceClient notificationClient;
+    private final StockServiceClient stockClient;
+    private final DeliveryServiceClient deliveryClient;
 
     @Transactional
     public OrderResponse createOrder(CreateOrderRequest request) {
-        // 1. Сначала пытаемся списать деньги
-        boolean withdrawSuccess = billingClient.withdraw(request.userId(), request.amount());
+        log.info("=== CREATE ORDER REQUEST RECEIVED ===");
+        log.info("userId: {}, amount: {}, productId: {}, quantity: {}, deliveryTime: {}",
+                request.userId(), request.amount(), request.productId(), request.quantity(), request.deliveryTime());
 
-        // 2. Определяем статус заказа и сообщение
-        OrderStatus status;
-        String message;
-        if (withdrawSuccess) {
-            status = OrderStatus.SUCCESS;
-            message = "Your order of $" + request.amount() + " has been successfully processed.";
-        } else {
-            status = OrderStatus.FAILED;
-            message = "Failed to process your order of $" + request.amount() + " due to insufficient funds.";
+        // 1. Создаём заказ со статусом FAILED (временный)
+        Order order = new Order(
+                request.userId(),
+                request.amount(),
+                OrderStatus.FAILED,
+                request.productId(),
+                request.quantity(),
+                request.deliveryTime()
+        );
+        order = orderRepository.save(order);
+        Long orderId = order.getId();
+        log.info("Order created with id: {} (temporary FAILED)", orderId);
+
+        boolean withdrawSuccess = false;
+        boolean stockReserved = false;
+        boolean deliveryReserved = false;
+        String notificationMessage = null;
+
+        try {
+            // Шаг 2: списание средств
+            log.info("Step 1: Withdraw from billing for user {}", request.userId());
+            withdrawSuccess = billingClient.withdraw(request.userId(), request.amount());
+            if (!withdrawSuccess) {
+                log.warn("Withdraw failed for user {}", request.userId());
+                notificationMessage = "Failed to process your order due to insufficient funds or billing error.";
+                sendNotification(request, notificationMessage);
+                return toResponse(order);
+            }
+            log.info("Withdraw successful");
+
+            // Шаг 3: резервирование товара на складе
+            log.info("Step 2: Reserve stock for product {}", request.productId());
+            ReserveStockRequest stockRequest = new ReserveStockRequest(
+                    orderId, request.productId(), request.quantity());
+            ResponseEntity<Void> stockResponse = stockClient.reserve(stockRequest);
+            if (!stockResponse.getStatusCode().is2xxSuccessful()) {
+                throw new RuntimeException("Stock reservation failed with status: " + stockResponse.getStatusCode());
+            }
+            stockReserved = true;
+            log.info("Stock reserved successfully");
+
+            // Шаг 4: резервирование слота доставки
+            log.info("Step 3: Reserve delivery slot for time {}", request.deliveryTime());
+            ReserveDeliveryRequest deliveryRequest = new ReserveDeliveryRequest(
+                    orderId, request.deliveryTime()
+            );
+            ResponseEntity<Void> deliveryResponse = deliveryClient.reserve(deliveryRequest);
+            if (!deliveryResponse.getStatusCode().is2xxSuccessful()) {
+                throw new RuntimeException("Delivery reservation failed with status: " + deliveryResponse.getStatusCode());
+            }
+            deliveryReserved = true;
+            log.info("Delivery slot reserved successfully");
+
+            // Все шаги выполнены успешно → меняем статус заказа на SUCCESS
+            order.setStatus(OrderStatus.SUCCESS);
+            order = orderRepository.save(order);
+            notificationMessage = "Your order has been successfully processed.";
+            log.info("Order {} completed successfully", orderId);
+
+        } catch (Exception e) {
+            log.error("Error during order creation for orderId: {}", orderId, e);
+            notificationMessage = "Failed to process your order: " + e.getMessage();
+
+            // Компенсация: откатываем уже выполненные шаги в обратном порядке
+            if (deliveryReserved) {
+                try {
+                    ReleaseDeliveryRequest releaseDelivery = new ReleaseDeliveryRequest(orderId);
+                    deliveryClient.release(releaseDelivery);
+                    log.debug("Delivery release compensation done for order {}", orderId);
+                } catch (Exception ex) {
+                    log.error("Failed to release delivery during compensation for order {}", orderId, ex);
+                }
+            }
+            if (stockReserved) {
+                try {
+                    ReleaseStockRequest releaseStock = new ReleaseStockRequest(
+                            orderId, request.productId(), request.quantity()
+                    );
+                    stockClient.release(releaseStock);
+                    log.debug("Stock release compensation done for order {}", orderId);
+                } catch (Exception ex) {
+                    log.error("Failed to release stock during compensation for order {}", orderId, ex);
+                }
+            }
+            if (withdrawSuccess) {
+                try {
+                    billingClient.deposit(request.userId(), request.amount());
+                    log.debug("Deposit compensation done for user {}", request.userId());
+                } catch (Exception ex) {
+                    log.error("Failed to deposit during compensation for user {}", request.userId(), ex);
+                }
+            }
+            // Статус заказа остаётся FAILED (уже сохранён)
         }
 
-        // 3. Сохраняем заказ
-        Order order = new Order(request.userId(), request.amount(), status);
-        order = orderRepository.save(order);
+        if (notificationMessage != null) {
+            sendNotification(request, notificationMessage);
+        }
 
-        // 4. Отправляем уведомление
-        String email = request.email();
+        log.info("=== END createOrder, order status = {}", order.getStatus());
+        return toResponse(order);
+    }
 
+    private void sendNotification(CreateOrderRequest request, String message) {
         NotificationRequest notification = new NotificationRequest(
                 request.userId(),
-                email,
+                request.email(),
                 message
         );
-        notificationClient.sendNotification(notification);
-
-        return toResponse(order);
+        try {
+            notificationClient.sendNotification(notification);
+            log.debug("Notification sent to user {}", request.userId());
+        } catch (Exception e) {
+            log.error("Failed to send notification to user {}", request.userId(), e);
+        }
     }
 
     private OrderResponse toResponse(Order order) {
