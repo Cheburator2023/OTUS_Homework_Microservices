@@ -360,7 +360,7 @@ newman run user-billing-order-notification.postman_collection.json
 затем:
 
 ```bash
-newman run user-billing-order-notification.postman_collection.json
+newman run test-saga.json
 ```
 Ниже представлен скриншот успешного прохождения всех тестов:
 
