@@ -17,7 +17,7 @@ RUN ./gradlew dependencies --no-daemon
 COPY src src
 
 # Собираем приложение (без тестов для ускорения)
-RUN ./gradlew build --no-daemon -x test
+RUN ./gradlew clean build --no-daemon -x test
 
 # ---- Финальный образ ----
 FROM bellsoft/liberica-openjdk-debian:21

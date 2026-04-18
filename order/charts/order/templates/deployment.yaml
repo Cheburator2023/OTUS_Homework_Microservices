@@ -51,3 +51,7 @@ spec:
               value: {{ .Values.services.billing.url | quote }}
             - name: SERVICES_NOTIFICATION_URL
               value: {{ .Values.services.notification.url | quote }}
+            - name: SERVICES_STOCK_URL
+              value: {{ .Values.services.stock.url | quote }}
+            - name: SERVICES_DELIVERY_URL
+              value: {{ .Values.services.delivery.url | quote }}

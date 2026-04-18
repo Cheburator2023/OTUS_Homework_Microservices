@@ -2,7 +2,7 @@ replicaCount: 1
 image:
   repository: victor2023victorovich/order-app
   tag: latest
-  pullPolicy: IfNotPresent
+  pullPolicy: Always
 service:
   type: NodePort
   port: 8003
@@ -36,3 +36,7 @@ services:
     url: "http://billing-app:8001"
   notification:
     url: "http://notification-app:8002"
+  delivery:
+    url: "http://delivery:8005"
+  stock:
+    url: "http://stock:8004"

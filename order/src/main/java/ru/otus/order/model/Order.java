@@ -7,6 +7,7 @@ import lombok.Setter;
 
 import java.math.BigDecimal;
 import java.time.Instant;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "orders")
@@ -35,10 +36,27 @@ public class Order {
     @Column(name = "created_at", nullable = false)
     private Instant createdAt = Instant.now();
 
-    public Order(Long userId, BigDecimal amount, OrderStatus status) {
+    // Новые поля
+    @Setter
+    @Column(name = "product_id", nullable = false)
+    private Long productId;
+
+    @Setter
+    @Column(name = "quantity", nullable = false)
+    private Long quantity;
+
+    @Setter
+    @Column(name = "delivery_time", nullable = false)
+    private LocalDateTime deliveryTime;
+
+    public Order(Long userId, BigDecimal amount, OrderStatus status,
+                 Long productId, Long quantity, LocalDateTime deliveryTime) {
         this.userId = userId;
         this.amount = amount;
         this.status = status;
+        this.productId = productId;
+        this.quantity = quantity;
+        this.deliveryTime = deliveryTime;
     }
 
     public enum OrderStatus {
