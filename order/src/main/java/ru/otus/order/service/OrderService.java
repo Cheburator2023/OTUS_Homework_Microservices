@@ -6,8 +6,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.otus.order.dto.*;
+import ru.otus.order.model.IdempotencyRecord;
 import ru.otus.order.model.Order;
 import ru.otus.order.model.Order.OrderStatus;
+import ru.otus.order.repository.IdempotencyRepository;
 import ru.otus.order.repository.OrderRepository;
 import ru.otus.order.service.client.BillingServiceClient;
 import ru.otus.order.service.client.DeliveryServiceClient;
@@ -20,18 +22,28 @@ import ru.otus.order.service.client.StockServiceClient;
 public class OrderService {
 
     private final OrderRepository orderRepository;
+    private final IdempotencyRepository idempotencyRepository;
     private final BillingServiceClient billingClient;
     private final NotificationServiceClient notificationClient;
     private final StockServiceClient stockClient;
     private final DeliveryServiceClient deliveryClient;
 
     @Transactional
-    public OrderResponse createOrder(CreateOrderRequest request) {
-        log.info("=== CREATE ORDER REQUEST RECEIVED ===");
-        log.info("userId: {}, amount: {}, productId: {}, quantity: {}, deliveryTime: {}",
-                request.userId(), request.amount(), request.productId(), request.quantity(), request.deliveryTime());
+    public OrderResponse createOrder(String idempotencyKey, CreateOrderRequest request) {
+        log.info("=== CREATE ORDER REQUEST (idempotent) ===");
+        log.info("IdempotencyKey: {}, userId: {}, amount: {}, productId: {}, quantity: {}, deliveryTime: {}",
+                idempotencyKey, request.userId(), request.amount(), request.productId(),
+                request.quantity(), request.deliveryTime());
 
-        // 1. Создаём заказ со статусом FAILED (временный)
+        // 1. Проверяем, не обрабатывался ли уже этот ключ
+        var existingRecord = idempotencyRepository.findByIdempotencyKey(idempotencyKey);
+        if (existingRecord.isPresent()) {
+            Order existingOrder = existingRecord.get().getOrder();
+            log.info("Idempotency key {} already processed, returning existing order {}", idempotencyKey, existingOrder.getId());
+            return toResponse(existingOrder);
+        }
+
+        // 2. Создаём заказ со статусом FAILED (временный)
         Order order = new Order(
                 request.userId(),
                 request.amount(),
@@ -57,6 +69,8 @@ public class OrderService {
                 log.warn("Withdraw failed for user {}", request.userId());
                 notificationMessage = "Failed to process your order due to insufficient funds or billing error.";
                 sendNotification(request, notificationMessage);
+                // Сохраняем идемпотентную запись даже для неудачного заказа
+                saveIdempotencyRecord(idempotencyKey, order);
                 return toResponse(order);
             }
             log.info("Withdraw successful");
@@ -126,12 +140,24 @@ public class OrderService {
             // Статус заказа остаётся FAILED (уже сохранён)
         }
 
+        // Сохраняем идемпотентную запись (всегда после окончательной фиксации заказа)
+        saveIdempotencyRecord(idempotencyKey, order);
+
         if (notificationMessage != null) {
             sendNotification(request, notificationMessage);
         }
 
         log.info("=== END createOrder, order status = {}", order.getStatus());
         return toResponse(order);
+    }
+
+    private void saveIdempotencyRecord(String idempotencyKey, Order order) {
+        try {
+            IdempotencyRecord record = new IdempotencyRecord(idempotencyKey, order);
+            idempotencyRepository.save(record);
+        } catch (Exception e) {
+            log.error("Failed to save idempotency record for key {}", idempotencyKey, e);
+        }
     }
 
     private void sendNotification(CreateOrderRequest request, String message) {

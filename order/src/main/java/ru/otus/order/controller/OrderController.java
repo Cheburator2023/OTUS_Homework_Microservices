@@ -20,8 +20,10 @@ public class OrderController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    @Operation(summary = "Create an order")
-    public OrderResponse createOrder(@Valid @RequestBody CreateOrderRequest request) {
-        return orderService.createOrder(request);
+    @Operation(summary = "Create an order (idempotent)")
+    public OrderResponse createOrder(
+            @RequestHeader("Idempotency-Key") String idempotencyKey,
+            @Valid @RequestBody CreateOrderRequest request) {
+        return orderService.createOrder(idempotencyKey, request);
     }
 }

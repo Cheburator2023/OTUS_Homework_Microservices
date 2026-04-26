@@ -1,0 +1,244 @@
+{
+  "info": {
+    "name": "Idempotency Tests (final v2)",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "orderBaseUrl",
+      "value": "http://order.arch.homework"
+    },
+    {
+      "key": "billingBaseUrl",
+      "value": "http://billing.arch.homework"
+    },
+    {
+      "key": "userId",
+      "value": "1"
+    }
+  ],
+  "item": [
+    {
+      "name": "1. Create Order with new Idempotency Key",
+      "event": [
+        {
+          "listen": "prerequest",
+          "script": {
+            "exec": [
+              "const uniqueKey = pm.variables.replaceIn('{{$randomUUID}}');",
+              "pm.collectionVariables.set('currentIdempotencyKey', uniqueKey);",
+              "console.log('Generated key:', uniqueKey);"
+            ],
+            "type": "text/javascript"
+          }
+        },
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 201\", () => pm.response.to.have.status(201));",
+              "const jsonData = pm.response.json();",
+              "pm.test(\"Order ID is present\", () => pm.expect(jsonData.id).to.exist);",
+              "pm.test(\"Order status is SUCCESS\", () => pm.expect(jsonData.status).to.equal(\"SUCCESS\"));",
+              "pm.collectionVariables.set('firstOrderId', jsonData.id);"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Idempotency-Key",
+            "value": "{{currentIdempotencyKey}}"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"userId\": {{userId}},\n    \"email\": \"test@example.com\",\n    \"amount\": 100.00,\n    \"productId\": 1,\n    \"quantity\": 2,\n    \"deliveryTime\": \"2025-04-03 12:00:00\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{orderBaseUrl}}/api/v1/orders",
+          "host": ["{{orderBaseUrl}}"],
+          "path": ["api", "v1", "orders"]
+        }
+      }
+    },
+    {
+      "name": "2. Repeat with SAME Idempotency Key (idempotent)",
+      "event": [
+        {
+          "listen": "prerequest",
+          "script": {
+            "exec": [
+              "console.log('Using same key:', pm.collectionVariables.get('currentIdempotencyKey'));"
+            ],
+            "type": "text/javascript"
+          }
+        },
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 201\", () => pm.response.to.have.status(201));",
+              "const jsonData = pm.response.json();",
+              "pm.test(\"Order ID is the same as first\", () => pm.expect(jsonData.id).to.equal(pm.collectionVariables.get('firstOrderId')));",
+              "pm.test(\"Order status is SUCCESS\", () => pm.expect(jsonData.status).to.equal(\"SUCCESS\"));"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Idempotency-Key",
+            "value": "{{currentIdempotencyKey}}"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"userId\": {{userId}},\n    \"email\": \"test@example.com\",\n    \"amount\": 100.00,\n    \"productId\": 999,\n    \"quantity\": 10,\n    \"deliveryTime\": \"2026-12-31 23:59:59\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{orderBaseUrl}}/api/v1/orders",
+          "host": ["{{orderBaseUrl}}"],
+          "path": ["api", "v1", "orders"]
+        }
+      }
+    },
+    {
+      "name": "3. Deposit money to ensure sufficient balance",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"amount\": 200.00\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{billingBaseUrl}}/api/v1/accounts/{{userId}}/deposit",
+          "host": ["{{billingBaseUrl}}"],
+          "path": ["api", "v1", "accounts", "{{userId}}", "deposit"]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 200\", () => pm.response.to.have.status(200));",
+              "const jsonData = pm.response.json();",
+              "pm.test(\"Balance increased\", () => pm.expect(jsonData.balance).to.be.above(0));"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ]
+    },
+    {
+      "name": "4. Create Order with DIFFERENT Idempotency Key (new order expected)",
+      "event": [
+        {
+          "listen": "prerequest",
+          "script": {
+            "exec": [
+              "const newKey = pm.variables.replaceIn('{{$randomUUID}}');",
+              "pm.collectionVariables.set('secondIdempotencyKey', newKey);",
+              "console.log('New key:', newKey);"
+            ],
+            "type": "text/javascript"
+          }
+        },
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 201\", () => pm.response.to.have.status(201));",
+              "const jsonData = pm.response.json();",
+              "pm.test(\"New order ID is different from first\", () => pm.expect(jsonData.id).to.not.equal(pm.collectionVariables.get('firstOrderId')));",
+              "pm.test(\"Order status is SUCCESS\", () => pm.expect(jsonData.status).to.equal(\"SUCCESS\"));"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Idempotency-Key",
+            "value": "{{secondIdempotencyKey}}"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"userId\": {{userId}},\n    \"email\": \"test@example.com\",\n    \"amount\": 100.00,\n    \"productId\": 1,\n    \"quantity\": 2,\n    \"deliveryTime\": \"2025-04-03 12:00:00\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{orderBaseUrl}}/api/v1/orders",
+          "host": ["{{orderBaseUrl}}"],
+          "path": ["api", "v1", "orders"]
+        }
+      }
+    },
+    {
+      "name": "5. Missing Idempotency-Key header (should fail)",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"userId\": {{userId}},\n    \"email\": \"test@example.com\",\n    \"amount\": 50.00,\n    \"productId\": 1,\n    \"quantity\": 1,\n    \"deliveryTime\": \"2025-04-03 12:00:00\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{orderBaseUrl}}/api/v1/orders",
+          "host": ["{{orderBaseUrl}}"],
+          "path": ["api", "v1", "orders"]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 400\", () => pm.response.to.have.status(400));",
+              "const jsonData = pm.response.json();",
+              "pm.test(\"Error response contains missing parameter code\", () => {",
+              "    pm.expect(jsonData.code).to.equal(\"MISSING_IDEMPOTENCY_KEY\");",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ]
+    }
+  ]
+}
